@@ -11,11 +11,12 @@ const ReportsPage = props => {
         }}
       >
         <Breadcrumb.Item href="">
-          <Icon style={{ marginTop: "-4px" }} type="home" />
+          <Icon type="home" />
         </Breadcrumb.Item>
         <Breadcrumb.Item href="">
           <span>Reports</span>
         </Breadcrumb.Item>
+        <Breadcrumb.Item>Application</Breadcrumb.Item>
       </Breadcrumb>
       <Reports />
     </>

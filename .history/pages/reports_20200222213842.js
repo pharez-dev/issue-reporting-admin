@@ -3,6 +3,7 @@ import { Breadcrumb, Icon } from "antd";
 import Reports from "../components/custom/Reports";
 
 const ReportsPage = props => {
+  console.log(props);
   return (
     <>
       <Breadcrumb
@@ -11,11 +12,13 @@ const ReportsPage = props => {
         }}
       >
         <Breadcrumb.Item href="">
-          <Icon style={{ marginTop: "-4px" }} type="home" />
+          <Icon type="home" />
         </Breadcrumb.Item>
         <Breadcrumb.Item href="">
-          <span>Reports</span>
+          <Icon type="user" />
+          <span>Application List</span>
         </Breadcrumb.Item>
+        <Breadcrumb.Item>Application</Breadcrumb.Item>
       </Breadcrumb>
       <Reports />
     </>

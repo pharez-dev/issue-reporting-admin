@@ -28,13 +28,13 @@ export default [
   {
     path: "/reports",
     name: "Reports",
-    icon: <List strokeWidth={1} size={16} />
-    // children: [
-    //   {
-    //     path: "/reports/full",
-    //     name: "Calendar"
-    //   }
-    // ]
+    icon: <List strokeWidth={1} size={16} />,
+    children: [
+      {
+        path: "/reports/full",
+        name: "Calendar"
+      }
+    ]
   },
   {
     name: "Apps",
