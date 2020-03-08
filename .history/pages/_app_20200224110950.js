@@ -31,7 +31,7 @@ class MyApp extends App {
     if (userAgent.match(/Edge/i) || userAgent.match(/Trident.*rv[ :]*11\./i)) {
       ie = true;
     }
-    //console.log("INITIAL PROPS", Component);
+    console.log("INITIAL PROPS", Component);
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }

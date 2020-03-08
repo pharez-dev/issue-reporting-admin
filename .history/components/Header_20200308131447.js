@@ -1,4 +1,4 @@
-import { Avatar, Badge, Layout, List, Menu } from "antd";
+import { Avatar, Badge, Layout, List, Menu, Avatar } from "antd";
 import {
   BarChart,
   Bell,
@@ -14,7 +14,7 @@ import Link from "next/link";
 import MockNotifications from "../demos/mock/notifications";
 import { useAppState } from "./shared/AppProvider";
 import { useState } from "react";
-import { UserOutlined } from "@ant-design/icons";
+
 const { SubMenu } = Menu;
 const { Header } = Layout;
 
@@ -130,14 +130,7 @@ const MainHeader = () => {
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu
-            title={
-              <Avatar
-                // style={{ backgroundColor: "#87d068" }}
-                icon={<UserOutlined />}
-              />
-            }
-          >
+          <SubMenu title={<Avatar src="/static/images/avatar.jpg" />}>
             <Menu.Item>Settings</Menu.Item>
             <Menu.Item>Profile</Menu.Item>
             <Menu.Item>Notifications</Menu.Item>

@@ -56,14 +56,16 @@ class Signin extends React.Component {
           } else {
             console.log("Login failed.");
             // https://github.com/developit/unfetch#caveats
-            Message.error("An error occured.Check console.log");
+            let error = new Error(response.statusText);
+            error.response = response;
+            return Promise.reject(error);
           }
         } catch (error) {
           console.error(
             "You have an error in your code or there are Network issues.",
             error
           );
-          //  throw new Error(error);
+          throw new Error(error);
         }
       }
     });

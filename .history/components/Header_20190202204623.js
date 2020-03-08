@@ -1,4 +1,4 @@
-import { Avatar, Badge, Layout, List, Menu } from "antd";
+import { Avatar, Badge, Layout, List, Menu } from 'antd';
 import {
   BarChart,
   Bell,
@@ -7,14 +7,14 @@ import {
   Minimize,
   Settings,
   Triangle
-} from "react-feather";
-import DashHeader, { Notification } from "./styles/Header";
+} from 'react-feather';
+import DashHeader, { Notification } from './styles/Header';
 
-import Link from "next/link";
-import MockNotifications from "../demos/mock/notifications";
-import { useAppState } from "./shared/AppProvider";
-import { useState } from "react";
-import { UserOutlined } from "@ant-design/icons";
+import Link from 'next/link';
+import MockNotifications from '../demos/mock/notifications';
+import { useAppState } from './shared/AppProvider';
+import { useState } from 'react';
+
 const { SubMenu } = Menu;
 const { Header } = Layout;
 
@@ -26,7 +26,7 @@ const MainHeader = () => {
       <Header>
         {state.mobile && (
           <a
-            onClick={() => dispatch({ type: "mobileDrawer" })}
+            onClick={() => dispatch({ type: 'mobileDrawer' })}
             className="trigger"
           >
             <BarChart size={20} strokeWidth={1} />
@@ -86,7 +86,7 @@ const MainHeader = () => {
 
         <Menu mode="horizontal">
           {!state.mobile && (
-            <Menu.Item onClick={() => dispatch({ type: "fullscreen" })}>
+            <Menu.Item onClick={() => dispatch({ type: 'fullscreen' })}>
               {!state.fullscreen ? (
                 <Maximize size={20} strokeWidth={1} />
               ) : (
@@ -94,7 +94,7 @@ const MainHeader = () => {
               )}
             </Menu.Item>
           )}
-          <Menu.Item onClick={() => dispatch({ type: "options" })}>
+          <Menu.Item onClick={() => dispatch({ type: 'options' })}>
             <Settings size={20} strokeWidth={1} />
           </Menu.Item>
           <SubMenu
@@ -108,7 +108,7 @@ const MainHeader = () => {
           >
             <Menu.Item
               className="p-0 bg-transparent"
-              style={{ height: "auto" }}
+              style={{ height: 'auto' }}
             >
               <List
                 className="header-notifications"
@@ -130,14 +130,7 @@ const MainHeader = () => {
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu
-            title={
-              <Avatar
-                // style={{ backgroundColor: "#87d068" }}
-                icon={<UserOutlined />}
-              />
-            }
-          >
+          <SubMenu title={<Avatar src="/static/images/avatar.jpg" />}>
             <Menu.Item>Settings</Menu.Item>
             <Menu.Item>Profile</Menu.Item>
             <Menu.Item>Notifications</Menu.Item>

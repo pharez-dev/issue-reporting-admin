@@ -133,7 +133,7 @@ const MainHeader = () => {
           <SubMenu
             title={
               <Avatar
-                // style={{ backgroundColor: "#87d068" }}
+                style={{ backgroundColor: "#87d068" }}
                 icon={<UserOutlined />}
               />
             }

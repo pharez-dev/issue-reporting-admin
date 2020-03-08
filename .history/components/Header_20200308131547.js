@@ -14,7 +14,7 @@ import Link from "next/link";
 import MockNotifications from "../demos/mock/notifications";
 import { useAppState } from "./shared/AppProvider";
 import { useState } from "react";
-import { UserOutlined } from "@ant-design/icons";
+
 const { SubMenu } = Menu;
 const { Header } = Layout;
 
@@ -133,7 +133,7 @@ const MainHeader = () => {
           <SubMenu
             title={
               <Avatar
-                // style={{ backgroundColor: "#87d068" }}
+                style={{ backgroundColor: "#87d068" }}
                 icon={<UserOutlined />}
               />
             }
