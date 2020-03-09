@@ -1,7 +1,5 @@
 {
-  "presets": [
-    "next/babel"
-  ],
+  "presets": ["next/babel"],
   "plugins": [
     [
       "babel-plugin-styled-components",
@@ -11,8 +9,11 @@
         "preprocess": false
       }
     ],
+    ["import", { "libraryName": "antd", }, "ant"],
     [
-      "import", { "libraryName": "antd" }, "ant"
-    ], ["import", { "libraryName": "react-feather", "libraryDirectory": "dist/icons" }, "react-feather"]
+      "import",
+      { "libraryName": "react-feather", "libraryDirectory": "dist/icons" },
+      "react-feather"
+    ]
   ]
 }
