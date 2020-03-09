@@ -4,7 +4,6 @@ import Reports from "../CustomComponents/Reports";
 //For checking if token is valid
 import { parseCookies } from "../lib/helpers";
 import authCheck from "../lib/AuthCheck";
-import Router from "next/router";
 const ReportsPage = props => {
   return (
     <>

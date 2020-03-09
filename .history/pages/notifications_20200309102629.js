@@ -1,11 +1,12 @@
 import Head from "next/head";
 import { Breadcrumb, Icon } from "antd";
-import Reports from "../CustomComponents/Reports";
+import Notifications from "../CustomComponents/Notifications";
+import fetch from "isomorphic-unfetch";
 //For checking if token is valid
 import { parseCookies } from "../lib/helpers";
 import authCheck from "../lib/AuthCheck";
-import Router from "next/router";
 const ReportsPage = props => {
+  console.log("[notification prop]", props);
   return (
     <>
       <Breadcrumb
@@ -14,13 +15,13 @@ const ReportsPage = props => {
         }}
       >
         <Breadcrumb.Item href="">
-          <Icon style={{ marginTop: "-4px" }} type="home" />
+          <Icon style={{ marginTop: "-4px" }} type="bell" />
         </Breadcrumb.Item>
         <Breadcrumb.Item href="">
-          <span>Reports</span>
+          <span>Notifications</span>
         </Breadcrumb.Item>
       </Breadcrumb>
-      <Reports />
+      <Notifications props />
     </>
     // <>
     //   <Head>
@@ -57,8 +58,10 @@ ReportsPage.getInitialProps = async ({ req, res }) => {
       Router.push("/signin");
     }
   }
+  const get = await fetch("https://api.tvmaze.com/search/shows?q=batman");
+  const data = await get.json();
 
-  return {};
+  return { hahha: "just trying" };
 };
 
 export default ReportsPage;

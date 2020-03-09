@@ -1,10 +1,9 @@
 import Head from "next/head";
 import { Breadcrumb, Icon } from "antd";
-import Reports from "../CustomComponents/Reports";
+import Notifications from "../CustomComponents/Notifications";
 //For checking if token is valid
 import { parseCookies } from "../lib/helpers";
 import authCheck from "../lib/AuthCheck";
-import Router from "next/router";
 const ReportsPage = props => {
   return (
     <>
@@ -14,13 +13,13 @@ const ReportsPage = props => {
         }}
       >
         <Breadcrumb.Item href="">
-          <Icon style={{ marginTop: "-4px" }} type="home" />
+          <Icon style={{ marginTop: "-4px" }} type="bell" />
         </Breadcrumb.Item>
         <Breadcrumb.Item href="">
-          <span>Reports</span>
+          <span>Notifications</span>
         </Breadcrumb.Item>
       </Breadcrumb>
-      <Reports />
+      <Notifications />
     </>
     // <>
     //   <Head>

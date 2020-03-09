@@ -221,13 +221,7 @@ const MainHeader = ({ global, router }) => {
                 }
                 footer={
                   <>
-                    <Button
-                      onClick={() => {
-                        Router.push("/notifications");
-                      }}
-                      type="link"
-                      block
-                    >
+                    <Button type="link" block>
                       View All
                     </Button>
                   </>
@@ -236,9 +230,6 @@ const MainHeader = ({ global, router }) => {
                   <Notification>
                     <List.Item>
                       <List.Item.Meta
-                        onClick={() => {
-                          Router.push("/notifications");
-                        }}
                         avatar={item.avatar}
                         title={<a href="javascript:;">{item.title}</a>}
                         description={<small>{item.description}</small>}

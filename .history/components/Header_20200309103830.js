@@ -30,7 +30,6 @@ const { Header } = Layout;
 import { MessageCircle } from "react-feather";
 import socketIOClient from "socket.io-client";
 import { Cookies } from "react-cookie";
-import Router from "next/router";
 const cookies = new Cookies();
 const MainHeader = ({ global, router }) => {
   const user = global.user;
@@ -215,19 +214,13 @@ const MainHeader = ({ global, router }) => {
                 itemLayout="horizontal"
                 dataSource={notifications}
                 header={
-                  <div style={{ paddingLeft: "20px" }}>
+                  <div style={{ paddingHorizontal: "20px" }}>
                     {notifications.length} Notifications
                   </div>
                 }
                 footer={
                   <>
-                    <Button
-                      onClick={() => {
-                        Router.push("/notifications");
-                      }}
-                      type="link"
-                      block
-                    >
+                    <Button type="link" block>
                       View All
                     </Button>
                   </>
@@ -236,9 +229,6 @@ const MainHeader = ({ global, router }) => {
                   <Notification>
                     <List.Item>
                       <List.Item.Meta
-                        onClick={() => {
-                          Router.push("/notifications");
-                        }}
                         avatar={item.avatar}
                         title={<a href="javascript:;">{item.title}</a>}
                         description={<small>{item.description}</small>}

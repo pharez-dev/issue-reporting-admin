@@ -164,14 +164,14 @@ class Signin extends React.Component {
               </Button>
             </FormItem>
 
-            {/* <div className="text-center">
+            <div className="text-center">
               <small className="text-muted">
                 <span>Don't have an account yet?</span>{" "}
                 <Link href="/signup">
                   <a>&nbsp;Create one now!</a>
                 </Link>
               </small>
-            </div> */}
+            </div>
           </Form>
         </Content>
       </Row>
