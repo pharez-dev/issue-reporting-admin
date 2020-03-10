@@ -90,7 +90,7 @@ FullReportPage.getInitialProps = async ({ req, res, query }) => {
   //   const res = await fetch("https://my.weather.api/london/today");
   //   const json = await res.json();
 
-  return { data: data.data, reportedBy: data.reportedBy, token: token };
+  return { data: data.data, reportedBy: data.reportedBy, token };
   // return { name: "Charlie" };
 };
 

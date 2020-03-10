@@ -340,7 +340,7 @@ class Full extends React.Component {
                     `}
                   >
                     <b css={subt}>Phone number: </b>
-                    <p>{"\u00a0" + phoneNumber}</p>
+                    <p>{phoneNumber}</p>
                   </div>
                   <div
                     css={`
@@ -351,7 +351,7 @@ class Full extends React.Component {
                     `}
                   >
                     <b css={subt}>Email: </b>
-                    <p>{"\u00a0" + "\u00a0" + email}</p>
+                    <p>{" " + email}</p>
                   </div>
                 </div>
               </Timeline.Item>

@@ -8,8 +8,7 @@ import {
   Form,
   Input,
   Button,
-  Radio,
-  Message
+  Radio
 } from "antd";
 import reqwest from "reqwest";
 import globals from "../constants/Globals";
@@ -31,7 +30,6 @@ class Full extends React.Component {
   state = {
     data: this.props.data,
     reportedBy: this.props.reportedBy,
-    adding: false,
     pagination: {},
     loading: false,
     photoIndex: 0,
@@ -86,47 +84,40 @@ class Full extends React.Component {
     if (this.state.loading) return;
     form.validateFields(async (err, values) => {
       if (!err) {
-        console.log(values, "token", this.props.token);
-        values._id = this.state.data._id;
+        console.log(values);
         this.setState({ loading: true });
-        try {
-          const response = await fetch(
-            `${globals.BASE_URL}/api/admin/update_issue`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: this.props.token
-              },
-
-              body: JSON.stringify(values)
-            }
-          );
-          if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            if (data.success) {
-              Message.success("Response was saved and user has been notified");
-              this.setState({ loading: false, adding: false });
-            } else {
-              Message.error(data.message);
-              this.setState({ loading: false });
-            }
-          } else {
-            this.setState({ loading: false });
-            //console.log("");
-            // https://github.com/developit/unfetch#caveats
-            Message.error("An error occured.Check console.log");
-          }
-        } catch (error) {
-          this.setState({ loading: false });
-          Message.error("Failed to reach server!");
-          console.error(
-            "You have an error in your code or there are Network issues.",
-            error
-          );
-          //  throw new Error(error);
-        }
+        // try {
+        //   const response = await fetch(`${globals.BASE_URL}/api/admin/login`, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify(values)
+        //   });
+        //   if (response.ok) {
+        //     const data = await response.json();
+        //     console.log(data);
+        //     if (data.success) {
+        //       this.props.global.signIn(data.token);
+        //       Message.success(
+        //         "Sign complete. Taking you to your dashboard!"
+        //       ).then(() => Router.push("/"));
+        //     } else {
+        //       Message.error(data.message);
+        //       this.setState({ loading: false });
+        //     }
+        //   } else {
+        //     console.log("Login failed.");
+        //     // https://github.com/developit/unfetch#caveats
+        //     Message.error("An error occured.Check console.log");
+        //   }
+        // } catch (error) {
+        //   this.setState({ loading: false });
+        //   Message.error("Failed to reach server!");
+        //   console.error(
+        //     "You have an error in your code or there are Network issues.",
+        //     error
+        //   );
+        //   //  throw new Error(error);
+        // }
       }
     });
   };
@@ -151,7 +142,7 @@ class Full extends React.Component {
       createdAt,
       response
     } = data;
-    console.log("[data from initial props]", data);
+    console.log("[reportedBY]", reportedBy);
 
     const { fname, lname, email, phoneNumber } = reportedBy;
 
@@ -193,8 +184,6 @@ class Full extends React.Component {
       }
     });
     const renderImages = images.map((each, i) => {
-      each.replace("/upload/", "/upload/h_720,q_auto,f_auto/");
-      // console.log(each);
       return (
         <div
           key={i + "img"}
@@ -340,7 +329,7 @@ class Full extends React.Component {
                     `}
                   >
                     <b css={subt}>Phone number: </b>
-                    <p>{"\u00a0" + phoneNumber}</p>
+                    <p>{phoneNumber}</p>
                   </div>
                   <div
                     css={`
@@ -350,15 +339,15 @@ class Full extends React.Component {
                       padding-top: 20px;
                     `}
                   >
-                    <b css={subt}>Email: </b>
-                    <p>{"\u00a0" + "\u00a0" + email}</p>
+                    <b css={subt}>Email:</b>
+                    <p>{email}</p>
                   </div>
                 </div>
               </Timeline.Item>
             </Timeline>
           </div>
           <Divider orientation="left">
-            <large>Responses</large>
+            <large>Response</large>
           </Divider>
           <div
             css={`
@@ -379,10 +368,10 @@ class Full extends React.Component {
                   <Button
                     style={{ display: "inline-flex" }}
                     type="link"
-                    icon={state.adding ? "close" : "plus"}
-                    onClick={() => this.setState({ adding: !state.adding })}
+                    icon="plus"
+                    onClick={() => this.setState({ adding: true })}
                   >
-                    {!state.adding ? "Add Response" : "cancel"}
+                    Add Response
                   </Button>
                 </>
               ) : null
@@ -398,10 +387,10 @@ class Full extends React.Component {
                 <Button
                   style={{ display: "inline-flex" }}
                   type="link"
-                  icon={state.adding ? "close" : "plus"}
-                  onClick={() => this.setState({ adding: !state.adding })}
+                  icon="plus"
+                  onClick={() => this.setState({ adding: true })}
                 >
-                  {!state.adding ? "Add Response" : "cancel"}
+                  Add Response
                 </Button>
               </>
             )}

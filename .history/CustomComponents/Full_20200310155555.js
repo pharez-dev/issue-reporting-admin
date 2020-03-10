@@ -340,7 +340,7 @@ class Full extends React.Component {
                     `}
                   >
                     <b css={subt}>Phone number: </b>
-                    <p>{"\u00a0" + phoneNumber}</p>
+                    <p>{phoneNumber}</p>
                   </div>
                   <div
                     css={`
@@ -350,15 +350,15 @@ class Full extends React.Component {
                       padding-top: 20px;
                     `}
                   >
-                    <b css={subt}>Email: </b>
-                    <p>{"\u00a0" + "\u00a0" + email}</p>
+                    <b css={subt}>Email:</b>
+                    <p>{email}</p>
                   </div>
                 </div>
               </Timeline.Item>
             </Timeline>
           </div>
           <Divider orientation="left">
-            <large>Responses</large>
+            <large>Response</large>
           </Divider>
           <div
             css={`

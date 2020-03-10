@@ -7,9 +7,7 @@ import {
   Timeline,
   Form,
   Input,
-  Button,
-  Radio,
-  Message
+  Button
 } from "antd";
 import reqwest from "reqwest";
 import globals from "../constants/Globals";
@@ -19,9 +17,9 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import styled from "styled-components";
 const FormItem = Form.Item;
-const { TextArea } = Input;
+
 const Content = styled.div`
-  margin-left: 30px;
+margin-left:30px
   max-width: 400px;
   z-index: 2;
   min-width: 300px;
@@ -31,12 +29,10 @@ class Full extends React.Component {
   state = {
     data: this.props.data,
     reportedBy: this.props.reportedBy,
-    adding: false,
     pagination: {},
     loading: false,
     photoIndex: 0,
-    isOpen: false,
-    radioStatus: ["pending", "resolved", "closed", "reviewed"]
+    isOpen: false
   };
 
   // handleTableChange = (pagination, filters, sorter) => {
@@ -78,58 +74,7 @@ class Full extends React.Component {
   //     });
   //   });
   // };
-  handleSubmit = e => {
-    e.preventDefault();
-    const { form } = this.props;
-    console.log("props", this.props);
-    //const { signIn } = useContext(UserContext);
-    if (this.state.loading) return;
-    form.validateFields(async (err, values) => {
-      if (!err) {
-        console.log(values, "token", this.props.token);
-        values._id = this.state.data._id;
-        this.setState({ loading: true });
-        try {
-          const response = await fetch(
-            `${globals.BASE_URL}/api/admin/update_issue`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: this.props.token
-              },
 
-              body: JSON.stringify(values)
-            }
-          );
-          if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            if (data.success) {
-              Message.success("Response was saved and user has been notified");
-              this.setState({ loading: false, adding: false });
-            } else {
-              Message.error(data.message);
-              this.setState({ loading: false });
-            }
-          } else {
-            this.setState({ loading: false });
-            //console.log("");
-            // https://github.com/developit/unfetch#caveats
-            Message.error("An error occured.Check console.log");
-          }
-        } catch (error) {
-          this.setState({ loading: false });
-          Message.error("Failed to reach server!");
-          console.error(
-            "You have an error in your code or there are Network issues.",
-            error
-          );
-          //  throw new Error(error);
-        }
-      }
-    });
-  };
   componentDidMount() {
     // this.fetch();
     //console.log("[received Params]", this.props.router.query);
@@ -138,7 +83,7 @@ class Full extends React.Component {
   render() {
     const { state } = this;
     const { form } = this.props;
-    const { data, photoIndex, isOpen, reportedBy, radioStatus } = state;
+    const { data, photoIndex, isOpen, reportedBy } = state;
     const {
       images,
       type,
@@ -148,10 +93,9 @@ class Full extends React.Component {
       reportId,
       status,
       locationInfo,
-      createdAt,
-      response
+      createdAt
     } = data;
-    console.log("[data from initial props]", data);
+    console.log("[reportedBY]", reportedBy);
 
     const { fname, lname, email, phoneNumber } = reportedBy;
 
@@ -175,26 +119,7 @@ class Full extends React.Component {
     max-width: 100%;
     max-height: 100%;`;
     // console.log(this.state.data);
-    const renderStatus = radioStatus.map((each, i) => {
-      if (status !== each) {
-        if (status == "pending") {
-          return (
-            <Radio.Button key={i + "status"} value={each}>
-              {each}
-            </Radio.Button>
-          );
-        } else if (status == "reviewed" && each !== "pending") {
-          return (
-            <Radio.Button key={i + "status"} value={each}>
-              {each}
-            </Radio.Button>
-          );
-        }
-      }
-    });
     const renderImages = images.map((each, i) => {
-      each.replace("/upload/", "/upload/h_720,q_auto,f_auto/");
-      // console.log(each);
       return (
         <div
           key={i + "img"}
@@ -340,7 +265,7 @@ class Full extends React.Component {
                     `}
                   >
                     <b css={subt}>Phone number: </b>
-                    <p>{"\u00a0" + phoneNumber}</p>
+                    <p>{phoneNumber}</p>
                   </div>
                   <div
                     css={`
@@ -350,92 +275,66 @@ class Full extends React.Component {
                       padding-top: 20px;
                     `}
                   >
-                    <b css={subt}>Email: </b>
-                    <p>{"\u00a0" + "\u00a0" + email}</p>
+                    <b css={subt}>Email:</b>
+                    <p>{email}</p>
                   </div>
                 </div>
               </Timeline.Item>
             </Timeline>
           </div>
           <Divider orientation="left">
-            <large>Responses</large>
+            <large>Response</large>
           </Divider>
-          <div
-            css={`
-              color: black;
-              margin-left: 30px;
-            `}
-          >
-            {response ? (
-              response.length == 0 ? (
-                <>
-                  <b
-                    css={`
-                      margin-right: 20px;
-                    `}
-                  >
-                    No response yet.{" "}
-                  </b>
-                  <Button
-                    style={{ display: "inline-flex" }}
-                    type="link"
-                    icon={state.adding ? "close" : "plus"}
-                    onClick={() => this.setState({ adding: !state.adding })}
-                  >
-                    {!state.adding ? "Add Response" : "cancel"}
-                  </Button>
-                </>
-              ) : null
-            ) : (
-              <>
-                <b
-                  css={`
-                    margin-right: 20px;
-                  `}
-                >
-                  No response yet.{" "}
-                </b>
-                <Button
-                  style={{ display: "inline-flex" }}
-                  type="link"
-                  icon={state.adding ? "close" : "plus"}
-                  onClick={() => this.setState({ adding: !state.adding })}
-                >
-                  {!state.adding ? "Add Response" : "cancel"}
-                </Button>
-              </>
-            )}
-          </div>
+          <Form layout="vertical" onSubmit={this.handleSubmit}>
+            <FormItem label="Email">
+              {form.getFieldDecorator("email", {
+                rules: [
+                  {
+                    type: "email",
+                    message: "The input is not valid E-mail!"
+                  },
+                  {
+                    required: true,
+                    message: "Please input your E-mail!"
+                  }
+                ]
+              })(
+                <Input
+                  // prefix={
+                  //   <Mail
+                  //     size={16}
+                  //     strokeWidth={1}
+                  //     style={{ color: "rgba(0,0,0,.25)" }}
+                  //   />
+                  // }
+                  type="email"
+                  placeholder="Email"
+                />
+              )}
+            </FormItem>
 
-          {state.adding && (
-            <Content>
-              <Form layout="vertical" onSubmit={this.handleSubmit}>
-                <FormItem label="Message">
-                  {form.getFieldDecorator("message", {
-                    rules: [
-                      // {
-                      //   type: "email",
-                      //   message: "The input is not valid E-mail!"
-                      // },
-                      {
-                        required: true,
-                        message: "Please input your message!"
-                      }
-                    ]
-                  })(<TextArea rows={4} />)}
-                </FormItem>
-                <Form.Item label="Status">
-                  {form.getFieldDecorator("radio-button", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please select status!"
-                      }
-                    ]
-                  })(<Radio.Group>{renderStatus}</Radio.Group>)}
-                </Form.Item>
-                <FormItem style={{ display: "flex", "flex-direction": "row" }}>
-                  {/* {form.getFieldDecorator("remember", {
+            <FormItem label="Password">
+              {form.getFieldDecorator("password", {
+                rules: [
+                  { required: true, message: "Please input your Password!" }
+                ]
+              })(
+                <Input
+                  // prefix={
+                  //   <Eye
+                  //     size={16}
+                  //     strokeWidth={1}
+                  //     style={{ color: "rgba(0,0,0,.25)" }}
+                  //   />
+                  // }
+                  type="password"
+                  placeholder="Password"
+                />
+              )}
+            </FormItem>
+
+            <FormItem>
+              {/* {form.getFieldDecorator("remember", {
                 valuePropName: "checked",
                 initialValue: true
               })(<Checkbox>Remember me</Checkbox>)}
@@ -444,20 +343,17 @@ class Full extends React.Component {
                   <small>Forgot password</small>
                 </a>
               </Link> */}
-
-                  <Button
-                    loading={this.state.loading}
-                    type="primary"
-                    htmlType="submit"
-                    block
-                    className="mt-3"
-                  >
-                    Submit
-                  </Button>
-                </FormItem>
-              </Form>
-            </Content>
-          )}
+              <Button
+                loading={this.state.loading}
+                type="primary"
+                htmlType="submit"
+                block
+                className="mt-3"
+              >
+                Submit
+              </Button>
+            </FormItem>
+          </Form>
           <div className="p-4"></div>
         </Card>
         {isOpen && (

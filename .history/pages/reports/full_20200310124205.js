@@ -76,21 +76,11 @@ FullReportPage.getInitialProps = async ({ req, res, query }) => {
   } catch (err) {
     console.error(err);
   }
-  if (!data) {
-    if (req) {
-      // If `ctx.req` is available it means we are on the server.
-      res.writeHead(302, { Location: "/reports" });
-      res.end();
-    } else {
-      // This should only happen on client.
-      Router.push("/reports");
-    }
-  }
   // Must return an object
   //   const res = await fetch("https://my.weather.api/london/today");
   //   const json = await res.json();
 
-  return { data: data.data, reportedBy: data.reportedBy, token: token };
+  return { data: data.data, reportedBy: data.reportedBy };
   // return { name: "Charlie" };
 };
 

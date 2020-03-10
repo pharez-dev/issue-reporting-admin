@@ -86,7 +86,7 @@ class Full extends React.Component {
     if (this.state.loading) return;
     form.validateFields(async (err, values) => {
       if (!err) {
-        console.log(values, "token", this.props.token);
+        console.log(values, "token", token);
         values._id = this.state.data._id;
         this.setState({ loading: true });
         try {
@@ -94,11 +94,8 @@ class Full extends React.Component {
             `${globals.BASE_URL}/api/admin/update_issue`,
             {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: this.props.token
-              },
-
+              headers: { "Content-Type": "application/json" },
+              Authorization: this.props.token,
               body: JSON.stringify(values)
             }
           );
@@ -151,7 +148,7 @@ class Full extends React.Component {
       createdAt,
       response
     } = data;
-    console.log("[data from initial props]", data);
+    console.log("[reportedBY]", reportedBy);
 
     const { fname, lname, email, phoneNumber } = reportedBy;
 
@@ -194,7 +191,7 @@ class Full extends React.Component {
     });
     const renderImages = images.map((each, i) => {
       each.replace("/upload/", "/upload/h_720,q_auto,f_auto/");
-      // console.log(each);
+      console.log(each);
       return (
         <div
           key={i + "img"}
@@ -340,7 +337,7 @@ class Full extends React.Component {
                     `}
                   >
                     <b css={subt}>Phone number: </b>
-                    <p>{"\u00a0" + phoneNumber}</p>
+                    <p>{phoneNumber}</p>
                   </div>
                   <div
                     css={`
@@ -350,15 +347,15 @@ class Full extends React.Component {
                       padding-top: 20px;
                     `}
                   >
-                    <b css={subt}>Email: </b>
-                    <p>{"\u00a0" + "\u00a0" + email}</p>
+                    <b css={subt}>Email:</b>
+                    <p>{email}</p>
                   </div>
                 </div>
               </Timeline.Item>
             </Timeline>
           </div>
           <Divider orientation="left">
-            <large>Responses</large>
+            <large>Response</large>
           </Divider>
           <div
             css={`
