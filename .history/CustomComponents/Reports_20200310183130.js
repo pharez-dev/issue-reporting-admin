@@ -17,8 +17,7 @@ const columns = [
     dataIndex: "type",
     filters: [
       { text: "Water and sanitation", value: "Water and sanitation" },
-      { text: "Housing and land", value: "Housing and land" },
-      { text: "Agriculture and livestock", value: "Agriculture and livestock" }
+      { text: "Housing and land", value: "Housing and land" }
     ]
   },
   {

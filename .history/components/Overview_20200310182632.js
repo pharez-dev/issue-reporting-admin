@@ -344,7 +344,7 @@ const Overview = () => {
             </Timeline>
           </Card>
         </Col>
-        <Col sm={24} md={12} className="mb-4">
+        <Col sm={24} md={8} className="mb-4">
           <Card
             title="Activity"
             extra={

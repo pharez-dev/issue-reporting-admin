@@ -6,14 +6,13 @@ import {
   GitCommit,
   MessageCircle,
   MoreHorizontal,
-  Phone,
+  PhoneCall,
   Printer,
   Save,
   Server,
   Trash,
   TrendingDown,
-  TrendingUp,
-  Check
+  TrendingUp
 } from "react-feather";
 import {
   Avatar,
@@ -165,9 +164,9 @@ const Overview = () => {
         <Col xs={24} sm={12} md={6}>
           <StatCard
             type="fill"
-            title="Mobile Users"
+            title="Campaigns Overview"
             value={103}
-            icon={<Phone size={20} strokeWidth={1} />}
+            icon={<Bookmark size={20} strokeWidth={1} />}
             color={theme.primaryColor}
             clickHandler={() => Message.info("Campaign stat button clicked")}
           />
@@ -175,9 +174,9 @@ const Overview = () => {
         <Col xs={24} sm={12} md={6}>
           <StatCard
             type="fill"
-            title="Reported Issues"
+            title="Customers"
             value={230}
-            icon={<Bookmark size={20} strokeWidth={1} />}
+            icon={<PhoneCall size={20} strokeWidth={1} />}
             color={theme.darkColor}
             clickHandler={() => Message.info("Customers stat button clicked")}
           />
@@ -185,7 +184,7 @@ const Overview = () => {
         <Col xs={24} sm={12} md={6}>
           <StatCard
             type="fill"
-            title="Open Issues"
+            title="Queries"
             value={323}
             icon={<Bell size={20} strokeWidth={1} />}
             color={theme.warningColor}
@@ -195,17 +194,17 @@ const Overview = () => {
         <Col xs={24} sm={12} md={6}>
           <StatCard
             type="fill"
-            title="Resolved Issues"
+            title="Opens"
             value={870}
-            icon={<Check size={20} strokeWidth={1} />}
-            color={"green"}
+            icon={<MessageCircle size={20} strokeWidth={1} />}
+            color={theme.errorColor}
             clickHandler={() => Message.info("Opens stat button clicked")}
           />
         </Col>
       </Row>
 
       <Card
-        title="Issue analytics"
+        title="Sales analytics"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -234,7 +233,7 @@ const Overview = () => {
       </Card>
 
       <Row gutter={16}>
-        {/* <Col sm={24} md={8} className="mb-4">
+        <Col sm={24} md={8} className="mb-4">
           <Card bodyStyle={{ padding: 0 }}>
             <Row
               type="flex"
@@ -298,10 +297,10 @@ const Overview = () => {
               )}
             />
           </Card>
-        </Col> */}
-        <Col sm={24} md={12} className="mb-4">
+        </Col>
+        <Col sm={24} md={8} className="mb-4">
           <Card
-            title="Reported Issues"
+            title="Tasks"
             extra={
               <Dropdown overlay={menu}>
                 <MoreHorizontal
@@ -344,7 +343,7 @@ const Overview = () => {
             </Timeline>
           </Card>
         </Col>
-        <Col sm={24} md={12} className="mb-4">
+        <Col sm={24} md={8} className="mb-4">
           <Card
             title="Activity"
             extra={
@@ -405,7 +404,7 @@ const Overview = () => {
           </Card>
         </Col>
       </Row>
-      {/* 
+
       <Row gutter={16}>
         <Col md={24} lg={12}>
           <WeatherCard city="harare" country="zw" days={7} />
@@ -424,7 +423,7 @@ const Overview = () => {
             text="Phileas Fogg and Aouda went on board, where they found Fix already installed. Below deck was a square cabin, of which the walls bulged out in the form of cots, above a circular divan; in the centre was a table provided with a swinging lamp."
           />
         </Col>
-      </Row> */}
+      </Row>
     </div>
   );
 };

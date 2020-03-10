@@ -301,7 +301,7 @@ const Overview = () => {
         </Col> */}
         <Col sm={24} md={12} className="mb-4">
           <Card
-            title="Reported Issues"
+            title="Tasks"
             extra={
               <Dropdown overlay={menu}>
                 <MoreHorizontal
@@ -344,7 +344,7 @@ const Overview = () => {
             </Timeline>
           </Card>
         </Col>
-        <Col sm={24} md={12} className="mb-4">
+        <Col sm={24} md={8} className="mb-4">
           <Card
             title="Activity"
             extra={
@@ -405,7 +405,7 @@ const Overview = () => {
           </Card>
         </Col>
       </Row>
-      {/* 
+
       <Row gutter={16}>
         <Col md={24} lg={12}>
           <WeatherCard city="harare" country="zw" days={7} />
@@ -424,7 +424,7 @@ const Overview = () => {
             text="Phileas Fogg and Aouda went on board, where they found Fix already installed. Below deck was a square cabin, of which the walls bulged out in the form of cots, above a circular divan; in the centre was a table provided with a swinging lamp."
           />
         </Col>
-      </Row> */}
+      </Row>
     </div>
   );
 };
