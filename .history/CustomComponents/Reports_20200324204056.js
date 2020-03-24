@@ -366,8 +366,8 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           form.resetFields();
           console.log("fetched:data", data);
           this.setState({
-            data: data.issue,
-            //  reportedBy: data.reportedBy,
+            data: data.data,
+            reportedBy: data.reportedBy,
             // wards: data.wards,
             loading: false
           });

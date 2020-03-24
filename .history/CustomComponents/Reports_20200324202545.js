@@ -361,16 +361,14 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             }
           );
           let data = await get.json();
-
-          if (!data.success) throw new Error(data.message);
           form.resetFields();
           console.log("fetched:data", data);
-          this.setState({
-            data: data.issue,
-            //  reportedBy: data.reportedBy,
-            // wards: data.wards,
-            loading: false
-          });
+          // this.setState({
+          //   data: data.data,
+          //   reportedBy: data.reportedBy,
+          //   wards: data.wards,
+          //   loading: false
+          // });
         } catch (err) {
           console.error(err);
           this.setState({ confirmLoading: false });
@@ -571,7 +569,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                         ? "processing"
                         : status == "resolved"
                         ? "green"
-                        : "default"
+                        : null
                     }
                     text={status}
                   />

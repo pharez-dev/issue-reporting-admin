@@ -361,16 +361,14 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             }
           );
           let data = await get.json();
-
-          if (!data.success) throw new Error(data.message);
           form.resetFields();
           console.log("fetched:data", data);
-          this.setState({
-            data: data.issue,
-            //  reportedBy: data.reportedBy,
-            // wards: data.wards,
-            loading: false
-          });
+          // this.setState({
+          //   data: data.data,
+          //   reportedBy: data.reportedBy,
+          //   wards: data.wards,
+          //   loading: false
+          // });
         } catch (err) {
           console.error(err);
           this.setState({ confirmLoading: false });
@@ -571,7 +569,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                         ? "processing"
                         : status == "resolved"
                         ? "green"
-                        : "default"
+                        : null
                     }
                     text={status}
                   />
@@ -634,100 +632,42 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             <TabPane tab="Responses" key="4">
               <DynamicMap location={locationInfo.coords} />
             </TabPane>
-            {status !== "closed" && (
-              <TabPane tab="Actions" key="5">
-                <Form layout="vertical">
-                  <Form.Item label="Option">
-                    <Radio.Group
-                      defaultValue="respond"
-                      onChange={this.selectAction}
-                      buttonStyle="solid"
-                      size="large"
-                    >
-                      <Radio.Button value={"respond"}>
-                        Respond to Citizen
-                      </Radio.Button>
-                      <Radio.Button value={"escalate"}>
-                        Escalate Issue
-                      </Radio.Button>
-                      <Radio.Button value={"close"}>Close Issue</Radio.Button>
-                    </Radio.Group>
-                  </Form.Item>
-                  {selectedAction == "respond" ? (
-                    <>
-                      {" "}
-                      <Form.Item label="Status">
-                        {form.getFieldDecorator("radio-button", {
-                          rules: [
-                            {
-                              required: true,
-                              message: "Please select status!"
-                            }
-                          ]
-                        })(<Radio.Group>{renderStatus}</Radio.Group>)}
-                      </Form.Item>
-                    </>
-                  ) : selectedAction == "escalate" ? (
-                    <>
-                      <Form.Item label="To">
-                        {form.getFieldDecorator("escalateTo", {
-                          rules: [
-                            // {
-                            //   type: "email",
-                            //   message: "The input is not valid E-mail!"
-                            // },
-                            {
-                              required: true,
-                              message:
-                                "Please select where to escalate the issue!"
-                            }
-                          ]
-                        })(
-                          <Select
-                            // defaultValue="lucy"
-                            style={{ width: 400 }}
-                            onChange={this.handleSelect}
-                          >
-                            <OptGroup label="Departments">
-                              {renderDepartments}
-                            </OptGroup>
-                            <OptGroup label="Wards">{renderWards}</OptGroup>
-                          </Select>
-                        )}
-                      </Form.Item>
-                    </>
-                  ) : (
-                    selectedAction == "close" && (
-                      <>
-                        <Form.Item>
-                          <Alert
-                            message="Warning"
-                            description="This action cannot be reversed. Please provide the reason for
-      closing this issue."
-                            type="warning"
-                          />
-                        </Form.Item>
-                        <Form.Item label="Reason">
-                          {form.getFieldDecorator("reason", {
-                            rules: [
-                              // {
-                              //   type: "email",
-                              //   message: "The input is not valid E-mail!"
-                              // },
-                              {
-                                required: true,
-                                message: "Please input your reason!"
-                              }
-                            ]
-                          })(<TextArea rows={4} />)}
-                        </Form.Item>
-                      </>
-                    )
-                  )}
-
-                  {selectedAction !== "close" && (
-                    <Form.Item label="Message">
-                      {form.getFieldDecorator("message", {
+            <TabPane tab="Actions" key="5">
+              <Form layout="vertical">
+                <Form.Item label="Option">
+                  <Radio.Group
+                    defaultValue="respond"
+                    onChange={this.selectAction}
+                    buttonStyle="solid"
+                    size="large"
+                  >
+                    <Radio.Button value={"respond"}>
+                      Respond to Citizen
+                    </Radio.Button>
+                    <Radio.Button value={"escalate"}>
+                      Escalate Issue
+                    </Radio.Button>
+                    <Radio.Button value={"close"}>Close Issue</Radio.Button>
+                  </Radio.Group>
+                </Form.Item>
+                {selectedAction == "respond" ? (
+                  <>
+                    {" "}
+                    <Form.Item label="Status">
+                      {form.getFieldDecorator("radio-button", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Please select status!"
+                          }
+                        ]
+                      })(<Radio.Group>{renderStatus}</Radio.Group>)}
+                    </Form.Item>
+                  </>
+                ) : selectedAction == "escalate" ? (
+                  <>
+                    <Form.Item label="To">
+                      {form.getFieldDecorator("escalateTo", {
                         rules: [
                           // {
                           //   type: "email",
@@ -735,15 +675,71 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                           // },
                           {
                             required: true,
-                            message: "Please input your message!"
+                            message:
+                              "Please select where to escalate the issue!"
                           }
                         ]
-                      })(<TextArea rows={4} />)}
+                      })(
+                        <Select
+                          // defaultValue="lucy"
+                          style={{ width: 400 }}
+                          onChange={this.handleSelect}
+                        >
+                          <OptGroup label="Departments">
+                            {renderDepartments}
+                          </OptGroup>
+                          <OptGroup label="Wards">{renderWards}</OptGroup>
+                        </Select>
+                      )}
                     </Form.Item>
-                  )}
-                </Form>
-              </TabPane>
-            )}
+                  </>
+                ) : (
+                  selectedAction == "close" && (
+                    <>
+                      <Form.Item>
+                        <Alert
+                          message="Warning"
+                          description="This action cannot be reversed. Please provide the reason for
+      closing this issue."
+                          type="warning"
+                        />
+                      </Form.Item>
+                      <Form.Item label="Reason">
+                        {form.getFieldDecorator("reason", {
+                          rules: [
+                            // {
+                            //   type: "email",
+                            //   message: "The input is not valid E-mail!"
+                            // },
+                            {
+                              required: true,
+                              message: "Please input your reason!"
+                            }
+                          ]
+                        })(<TextArea rows={4} />)}
+                      </Form.Item>
+                    </>
+                  )
+                )}
+
+                {selectedAction !== "close" && (
+                  <Form.Item label="Message">
+                    {form.getFieldDecorator("message", {
+                      rules: [
+                        // {
+                        //   type: "email",
+                        //   message: "The input is not valid E-mail!"
+                        // },
+                        {
+                          required: true,
+                          message: "Please input your message!"
+                        }
+                      ]
+                    })(<TextArea rows={4} />)}
+                  </Form.Item>
+                )}
+              </Form>
+            </TabPane>
             {/* <TabPane tab="Respond" key="3">
               Content of Tab Pane 3
             </TabPane> */}

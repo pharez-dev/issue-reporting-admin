@@ -361,16 +361,14 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             }
           );
           let data = await get.json();
-
-          if (!data.success) throw new Error(data.message);
           form.resetFields();
           console.log("fetched:data", data);
-          this.setState({
-            data: data.issue,
-            //  reportedBy: data.reportedBy,
-            // wards: data.wards,
-            loading: false
-          });
+          // this.setState({
+          //   data: data.data,
+          //   reportedBy: data.reportedBy,
+          //   wards: data.wards,
+          //   loading: false
+          // });
         } catch (err) {
           console.error(err);
           this.setState({ confirmLoading: false });
@@ -561,20 +559,159 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             onChange={this.callback}
           >
             <TabPane tab="Details" key="1">
+              {/* <div
+                css={`
+                  padding-left: 30px;
+                `}
+              >
+                <Timeline>
+                  <Timeline.Item
+                    color={
+                      status == "pending"
+                        ? "gray"
+                        : status == "reviewed"
+                        ? "green"
+                        : null
+                    }
+                  >
+                    {" "}
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>Status</b>
+                        <p>{status}</p>
+                      </div>
+                      <div>
+                        <b css={subt}>Type</b>
+                        <p>{type}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div css={``}>
+                        <b css={subt}>Description</b>
+                        <p>{description}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+                  {proposedSolution && (
+                    <Timeline.Item>
+                      <div
+                        css={`
+                          display: flex;
+                          flex-direction: row;
+                        `}
+                      >
+                        <div css={``}>
+                          <b css={subt}>Proposed solution</b>
+                          <p>{proposedSolution}</p>
+                        </div>
+                      </div>
+                    </Timeline.Item>
+                  )}
+
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>County</b>
+                        <p>{county}</p>
+                      </div>
+                      <div>
+                        <b css={subt}>Sub County</b>
+                        <p>{sub_county ? sub_county : "NA"}</p>
+                      </div>
+                    </div>  </Timeline.Item>
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>Report ID</b>
+                        <p>{reportId}</p>
+                      </div>
+                      <div>
+                        <b css={subt}>Reported On</b>
+                        <p>{moment(createdAt).format("YYYY-MM-DD")}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                        width: 100%;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>Reported By</b>
+                        <p>
+                          {fname} {lname}
+                        </p>
+                      </div>
+                      <div
+                        css={`
+                          margin-right: 80px;
+                          display: flex;
+                          flex-direction: row;
+                          padding-top: 20px;
+                        `}
+                      >
+                        <b css={subt}>Phone number: </b>
+                        <p>{"\u00a0" + phoneNumber}</p>
+                      </div>
+                      <div
+                        css={`
+                          display: flex;
+                          flex-direction: row;
+                          padding-top: 20px;
+                        `}
+                      >
+                        <b css={subt}>Email: </b>
+                        <p>{"\u00a0" + "\u00a0" + email}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+                </Timeline>
+              </div>*/}
               <Descriptions bordered>
                 <Descriptions.Item label="Status" span={1.5}>
-                  <Badge
-                    status={
-                      status == "pending"
-                        ? "warning"
-                        : status == "in progress"
-                        ? "processing"
-                        : status == "resolved"
-                        ? "green"
-                        : "default"
-                    }
-                    text={status}
-                  />
+                  <Badge status="processing" text={status} />
                 </Descriptions.Item>
                 <Descriptions.Item label="Type" span={1.5}>
                   {type}
@@ -595,19 +732,27 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                   {sub_county}
                 </Descriptions.Item>
 
-                <Descriptions.Item label="Report ID" span={1.5}>
+                <Descriptions.Item label="Report ID">
                   {reportId}
                 </Descriptions.Item>
-                <Descriptions.Item label="Reported On" span={1.5}>
+                <Descriptions.Item label="Reported On">
                   {moment(createdAt).format("YYYY-MM-DD")}}
                 </Descriptions.Item>
-
-                <Descriptions.Item label="Reported By" span={3}>
-                  Name: {fname} {lname}
+                <Descriptions.Item label="Official Receipts">
+                  $60.00
+                </Descriptions.Item>
+                <Descriptions.Item label="Config Info">
+                  Data disk type: MongoDB
                   <br />
-                  Phone number: {"\u00a0" + phoneNumber}
+                  Database version: 3.4
                   <br />
-                  Email: {"\u00a0" + "\u00a0" + email}
+                  Package: dds.mongo.mid
+                  <br />
+                  Storage space: 10 GB
+                  <br />
+                  Replication factor: 3
+                  <br />
+                  Region: East China 1<br />
                 </Descriptions.Item>
               </Descriptions>
             </TabPane>
@@ -634,100 +779,42 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             <TabPane tab="Responses" key="4">
               <DynamicMap location={locationInfo.coords} />
             </TabPane>
-            {status !== "closed" && (
-              <TabPane tab="Actions" key="5">
-                <Form layout="vertical">
-                  <Form.Item label="Option">
-                    <Radio.Group
-                      defaultValue="respond"
-                      onChange={this.selectAction}
-                      buttonStyle="solid"
-                      size="large"
-                    >
-                      <Radio.Button value={"respond"}>
-                        Respond to Citizen
-                      </Radio.Button>
-                      <Radio.Button value={"escalate"}>
-                        Escalate Issue
-                      </Radio.Button>
-                      <Radio.Button value={"close"}>Close Issue</Radio.Button>
-                    </Radio.Group>
-                  </Form.Item>
-                  {selectedAction == "respond" ? (
-                    <>
-                      {" "}
-                      <Form.Item label="Status">
-                        {form.getFieldDecorator("radio-button", {
-                          rules: [
-                            {
-                              required: true,
-                              message: "Please select status!"
-                            }
-                          ]
-                        })(<Radio.Group>{renderStatus}</Radio.Group>)}
-                      </Form.Item>
-                    </>
-                  ) : selectedAction == "escalate" ? (
-                    <>
-                      <Form.Item label="To">
-                        {form.getFieldDecorator("escalateTo", {
-                          rules: [
-                            // {
-                            //   type: "email",
-                            //   message: "The input is not valid E-mail!"
-                            // },
-                            {
-                              required: true,
-                              message:
-                                "Please select where to escalate the issue!"
-                            }
-                          ]
-                        })(
-                          <Select
-                            // defaultValue="lucy"
-                            style={{ width: 400 }}
-                            onChange={this.handleSelect}
-                          >
-                            <OptGroup label="Departments">
-                              {renderDepartments}
-                            </OptGroup>
-                            <OptGroup label="Wards">{renderWards}</OptGroup>
-                          </Select>
-                        )}
-                      </Form.Item>
-                    </>
-                  ) : (
-                    selectedAction == "close" && (
-                      <>
-                        <Form.Item>
-                          <Alert
-                            message="Warning"
-                            description="This action cannot be reversed. Please provide the reason for
-      closing this issue."
-                            type="warning"
-                          />
-                        </Form.Item>
-                        <Form.Item label="Reason">
-                          {form.getFieldDecorator("reason", {
-                            rules: [
-                              // {
-                              //   type: "email",
-                              //   message: "The input is not valid E-mail!"
-                              // },
-                              {
-                                required: true,
-                                message: "Please input your reason!"
-                              }
-                            ]
-                          })(<TextArea rows={4} />)}
-                        </Form.Item>
-                      </>
-                    )
-                  )}
-
-                  {selectedAction !== "close" && (
-                    <Form.Item label="Message">
-                      {form.getFieldDecorator("message", {
+            <TabPane tab="Actions" key="5">
+              <Form layout="vertical">
+                <Form.Item label="Option">
+                  <Radio.Group
+                    defaultValue="respond"
+                    onChange={this.selectAction}
+                    buttonStyle="solid"
+                    size="large"
+                  >
+                    <Radio.Button value={"respond"}>
+                      Respond to Citizen
+                    </Radio.Button>
+                    <Radio.Button value={"escalate"}>
+                      Escalate Issue
+                    </Radio.Button>
+                    <Radio.Button value={"close"}>Close Issue</Radio.Button>
+                  </Radio.Group>
+                </Form.Item>
+                {selectedAction == "respond" ? (
+                  <>
+                    {" "}
+                    <Form.Item label="Status">
+                      {form.getFieldDecorator("radio-button", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Please select status!"
+                          }
+                        ]
+                      })(<Radio.Group>{renderStatus}</Radio.Group>)}
+                    </Form.Item>
+                  </>
+                ) : selectedAction == "escalate" ? (
+                  <>
+                    <Form.Item label="To">
+                      {form.getFieldDecorator("escalateTo", {
                         rules: [
                           // {
                           //   type: "email",
@@ -735,15 +822,71 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                           // },
                           {
                             required: true,
-                            message: "Please input your message!"
+                            message:
+                              "Please select where to escalate the issue!"
                           }
                         ]
-                      })(<TextArea rows={4} />)}
+                      })(
+                        <Select
+                          // defaultValue="lucy"
+                          style={{ width: 400 }}
+                          onChange={this.handleSelect}
+                        >
+                          <OptGroup label="Departments">
+                            {renderDepartments}
+                          </OptGroup>
+                          <OptGroup label="Wards">{renderWards}</OptGroup>
+                        </Select>
+                      )}
                     </Form.Item>
-                  )}
-                </Form>
-              </TabPane>
-            )}
+                  </>
+                ) : (
+                  selectedAction == "close" && (
+                    <>
+                      <Form.Item>
+                        <Alert
+                          message="Warning"
+                          description="This action cannot be reversed. Please provide the reason for
+      closing this issue."
+                          type="warning"
+                        />
+                      </Form.Item>
+                      <Form.Item label="Reason">
+                        {form.getFieldDecorator("reason", {
+                          rules: [
+                            // {
+                            //   type: "email",
+                            //   message: "The input is not valid E-mail!"
+                            // },
+                            {
+                              required: true,
+                              message: "Please input your reason!"
+                            }
+                          ]
+                        })(<TextArea rows={4} />)}
+                      </Form.Item>
+                    </>
+                  )
+                )}
+
+                {selectedAction !== "close" && (
+                  <Form.Item label="Message">
+                    {form.getFieldDecorator("message", {
+                      rules: [
+                        // {
+                        //   type: "email",
+                        //   message: "The input is not valid E-mail!"
+                        // },
+                        {
+                          required: true,
+                          message: "Please input your message!"
+                        }
+                      ]
+                    })(<TextArea rows={4} />)}
+                  </Form.Item>
+                )}
+              </Form>
+            </TabPane>
             {/* <TabPane tab="Respond" key="3">
               Content of Tab Pane 3
             </TabPane> */}

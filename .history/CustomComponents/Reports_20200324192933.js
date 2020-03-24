@@ -10,10 +10,7 @@ import {
   Input,
   Radio,
   Select,
-  Alert,
-  Spin,
-  Descriptions,
-  Badge
+  Alert
 } from "antd";
 import dynamic from "next/dynamic";
 import reqwest from "reqwest";
@@ -361,16 +358,14 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             }
           );
           let data = await get.json();
-
-          if (!data.success) throw new Error(data.message);
           form.resetFields();
           console.log("fetched:data", data);
-          this.setState({
-            data: data.issue,
-            //  reportedBy: data.reportedBy,
-            // wards: data.wards,
-            loading: false
-          });
+          // this.setState({
+          //   data: data.data,
+          //   reportedBy: data.reportedBy,
+          //   wards: data.wards,
+          //   loading: false
+          // });
         } catch (err) {
           console.error(err);
           this.setState({ confirmLoading: false });
@@ -424,37 +419,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
     };
     render() {
       if (this.state.loading) {
-        return (
-          <Modal
-            centered
-            width={"60%"}
-            visible={true}
-            title="Reported Issue"
-            okButtonProps={{
-              disabled: true
-            }}
-            cancelButtonProps={{
-              disabled: true
-            }}
-            okText={"Submit"}
-            cancelText="Close"
-            onCancel={onCancel}
-            onOk={this.handleSubmit}
-          >
-            <div
-              css={`
-                text-align: center;
-
-                border-radius: 4px;
-                margin-bottom: 20px;
-                padding: 30px 50px;
-                margin: 20px 0;
-              `}
-            >
-              <Spin />
-            </div>
-          </Modal>
-        );
+        return <div></div>;
       }
       const { visible, onCancel, onCreate, form } = this.props;
       //  console.log("props:", this.props);
@@ -541,8 +506,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       });
       return (
         <Modal
-          //  style={{ marginTop: "-75px" }}
-          centered
+          style={{ marginTop: "-75px" }}
           width={"60%"}
           visible={visible}
           title="Reported Issue"
@@ -561,55 +525,157 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             onChange={this.callback}
           >
             <TabPane tab="Details" key="1">
-              <Descriptions bordered>
-                <Descriptions.Item label="Status" span={1.5}>
-                  <Badge
-                    status={
+              <div
+                css={`
+                  padding-left: 30px;
+                `}
+              >
+                <Timeline>
+                  <Timeline.Item
+                    color={
                       status == "pending"
-                        ? "warning"
-                        : status == "in progress"
-                        ? "processing"
-                        : status == "resolved"
+                        ? "gray"
+                        : status == "reviewed"
                         ? "green"
-                        : "default"
+                        : null
                     }
-                    text={status}
-                  />
-                </Descriptions.Item>
-                <Descriptions.Item label="Type" span={1.5}>
-                  {type}
-                </Descriptions.Item>
-                <Descriptions.Item label="Description " span={1.5}>
-                  {description}
-                </Descriptions.Item>
-                {proposedSolution && (
-                  <Descriptions.Item label="Proposed solution" span={1.5}>
-                    {proposedSolution}
-                  </Descriptions.Item>
-                )}
+                  >
+                    {" "}
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>Status</b>
+                        <p>{status}</p>
+                      </div>
+                      <div>
+                        <b css={subt}>Type</b>
+                        <p>{type}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
 
-                <Descriptions.Item label="County" span={1.5}>
-                  {county}
-                </Descriptions.Item>
-                <Descriptions.Item label="Sub County" span={1.5}>
-                  {sub_county}
-                </Descriptions.Item>
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div css={``}>
+                        <b css={subt}>Description</b>
+                        <p>{description}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+                  {proposedSolution && (
+                    <Timeline.Item>
+                      <div
+                        css={`
+                          display: flex;
+                          flex-direction: row;
+                        `}
+                      >
+                        <div css={``}>
+                          <b css={subt}>Proposed solution</b>
+                          <p>{proposedSolution}</p>
+                        </div>
+                      </div>
+                    </Timeline.Item>
+                  )}
 
-                <Descriptions.Item label="Report ID" span={1.5}>
-                  {reportId}
-                </Descriptions.Item>
-                <Descriptions.Item label="Reported On" span={1.5}>
-                  {moment(createdAt).format("YYYY-MM-DD")}}
-                </Descriptions.Item>
-
-                <Descriptions.Item label="Reported By" span={3}>
-                  Name: {fname} {lname}
-                  <br />
-                  Phone number: {"\u00a0" + phoneNumber}
-                  <br />
-                  Email: {"\u00a0" + "\u00a0" + email}
-                </Descriptions.Item>
-              </Descriptions>
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>County</b>
+                        <p>{county}</p>
+                      </div>
+                      <div>
+                        <b css={subt}>Sub County</b>
+                        <p>{sub_county ? sub_county : "NA"}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>Report ID</b>
+                        <p>{reportId}</p>
+                      </div>
+                      <div>
+                        <b css={subt}>Reported On</b>
+                        <p>{moment(createdAt).format("YYYY-MM-DD")}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+                  <Timeline.Item>
+                    <div
+                      css={`
+                        display: flex;
+                        flex-direction: row;
+                        width: 100%;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 200px;
+                        `}
+                      >
+                        <b css={subt}>Reported By</b>
+                        <p>
+                          {fname} {lname}
+                        </p>
+                      </div>
+                      <div
+                        css={`
+                          margin-right: 80px;
+                          display: flex;
+                          flex-direction: row;
+                          padding-top: 20px;
+                        `}
+                      >
+                        <b css={subt}>Phone number: </b>
+                        <p>{"\u00a0" + phoneNumber}</p>
+                      </div>
+                      <div
+                        css={`
+                          display: flex;
+                          flex-direction: row;
+                          padding-top: 20px;
+                        `}
+                      >
+                        <b css={subt}>Email: </b>
+                        <p>{"\u00a0" + "\u00a0" + email}</p>
+                      </div>
+                    </div>
+                  </Timeline.Item>
+                </Timeline>
+              </div>
             </TabPane>
             <TabPane tab="Images" key="2">
               <div
@@ -634,100 +700,42 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             <TabPane tab="Responses" key="4">
               <DynamicMap location={locationInfo.coords} />
             </TabPane>
-            {status !== "closed" && (
-              <TabPane tab="Actions" key="5">
-                <Form layout="vertical">
-                  <Form.Item label="Option">
-                    <Radio.Group
-                      defaultValue="respond"
-                      onChange={this.selectAction}
-                      buttonStyle="solid"
-                      size="large"
-                    >
-                      <Radio.Button value={"respond"}>
-                        Respond to Citizen
-                      </Radio.Button>
-                      <Radio.Button value={"escalate"}>
-                        Escalate Issue
-                      </Radio.Button>
-                      <Radio.Button value={"close"}>Close Issue</Radio.Button>
-                    </Radio.Group>
-                  </Form.Item>
-                  {selectedAction == "respond" ? (
-                    <>
-                      {" "}
-                      <Form.Item label="Status">
-                        {form.getFieldDecorator("radio-button", {
-                          rules: [
-                            {
-                              required: true,
-                              message: "Please select status!"
-                            }
-                          ]
-                        })(<Radio.Group>{renderStatus}</Radio.Group>)}
-                      </Form.Item>
-                    </>
-                  ) : selectedAction == "escalate" ? (
-                    <>
-                      <Form.Item label="To">
-                        {form.getFieldDecorator("escalateTo", {
-                          rules: [
-                            // {
-                            //   type: "email",
-                            //   message: "The input is not valid E-mail!"
-                            // },
-                            {
-                              required: true,
-                              message:
-                                "Please select where to escalate the issue!"
-                            }
-                          ]
-                        })(
-                          <Select
-                            // defaultValue="lucy"
-                            style={{ width: 400 }}
-                            onChange={this.handleSelect}
-                          >
-                            <OptGroup label="Departments">
-                              {renderDepartments}
-                            </OptGroup>
-                            <OptGroup label="Wards">{renderWards}</OptGroup>
-                          </Select>
-                        )}
-                      </Form.Item>
-                    </>
-                  ) : (
-                    selectedAction == "close" && (
-                      <>
-                        <Form.Item>
-                          <Alert
-                            message="Warning"
-                            description="This action cannot be reversed. Please provide the reason for
-      closing this issue."
-                            type="warning"
-                          />
-                        </Form.Item>
-                        <Form.Item label="Reason">
-                          {form.getFieldDecorator("reason", {
-                            rules: [
-                              // {
-                              //   type: "email",
-                              //   message: "The input is not valid E-mail!"
-                              // },
-                              {
-                                required: true,
-                                message: "Please input your reason!"
-                              }
-                            ]
-                          })(<TextArea rows={4} />)}
-                        </Form.Item>
-                      </>
-                    )
-                  )}
-
-                  {selectedAction !== "close" && (
-                    <Form.Item label="Message">
-                      {form.getFieldDecorator("message", {
+            <TabPane tab="Actions" key="5">
+              <Form layout="vertical">
+                <Form.Item label="Option">
+                  <Radio.Group
+                    defaultValue="respond"
+                    onChange={this.selectAction}
+                    buttonStyle="solid"
+                    size="large"
+                  >
+                    <Radio.Button value={"respond"}>
+                      Respond to Citizen
+                    </Radio.Button>
+                    <Radio.Button value={"escalate"}>
+                      Escalate Issue
+                    </Radio.Button>
+                    <Radio.Button value={"close"}>Close Issue</Radio.Button>
+                  </Radio.Group>
+                </Form.Item>
+                {selectedAction == "respond" ? (
+                  <>
+                    {" "}
+                    <Form.Item label="Status">
+                      {form.getFieldDecorator("radio-button", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Please select status!"
+                          }
+                        ]
+                      })(<Radio.Group>{renderStatus}</Radio.Group>)}
+                    </Form.Item>
+                  </>
+                ) : selectedAction == "escalate" ? (
+                  <>
+                    <Form.Item label="To">
+                      {form.getFieldDecorator("escalateTo", {
                         rules: [
                           // {
                           //   type: "email",
@@ -735,15 +743,71 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                           // },
                           {
                             required: true,
-                            message: "Please input your message!"
+                            message:
+                              "Please select where to escalate the issue!"
                           }
                         ]
-                      })(<TextArea rows={4} />)}
+                      })(
+                        <Select
+                          // defaultValue="lucy"
+                          style={{ width: 400 }}
+                          onChange={this.handleSelect}
+                        >
+                          <OptGroup label="Departments">
+                            {renderDepartments}
+                          </OptGroup>
+                          <OptGroup label="Wards">{renderWards}</OptGroup>
+                        </Select>
+                      )}
                     </Form.Item>
-                  )}
-                </Form>
-              </TabPane>
-            )}
+                  </>
+                ) : (
+                  selectedAction == "close" && (
+                    <>
+                      <Form.Item>
+                        <Alert
+                          message="Warning"
+                          description="This action cannot be reversed. Please provide the reason for
+      closing this issue."
+                          type="warning"
+                        />
+                      </Form.Item>
+                      <Form.Item label="Reason">
+                        {form.getFieldDecorator("reason", {
+                          rules: [
+                            // {
+                            //   type: "email",
+                            //   message: "The input is not valid E-mail!"
+                            // },
+                            {
+                              required: true,
+                              message: "Please input your reason!"
+                            }
+                          ]
+                        })(<TextArea rows={4} />)}
+                      </Form.Item>
+                    </>
+                  )
+                )}
+
+                {selectedAction !== "close" && (
+                  <Form.Item label="Message">
+                    {form.getFieldDecorator("message", {
+                      rules: [
+                        // {
+                        //   type: "email",
+                        //   message: "The input is not valid E-mail!"
+                        // },
+                        {
+                          required: true,
+                          message: "Please input your message!"
+                        }
+                      ]
+                    })(<TextArea rows={4} />)}
+                  </Form.Item>
+                )}
+              </Form>
+            </TabPane>
             {/* <TabPane tab="Respond" key="3">
               Content of Tab Pane 3
             </TabPane> */}
