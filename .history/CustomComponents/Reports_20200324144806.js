@@ -149,6 +149,19 @@ class App extends React.Component {
     this.setState({ visible: false });
   };
 
+  handleCreate = () => {
+    const { form } = this.formRef.props;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+
+      console.log("Received values of form: ", values);
+      form.resetFields();
+      this.setState({ visible: false });
+    });
+  };
+
   saveFormRef = formRef => {
     this.formRef = formRef;
   };
@@ -275,10 +288,9 @@ class App extends React.Component {
             token={this.props.token}
             record={state.mdRecord}
             wrappedComponentRef={this.saveFormRef}
-            confirmLoading={this.state.confirmLoading}
             visible={this.state.visible}
             onCancel={this.handleCancel}
-            //  onCreate={this.handleSubmit}
+            onCreate={this.handleCreate}
           />
         )}
       </Card>
@@ -330,51 +342,6 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         //  "closed", //
       ]
     };
-    handleSubmit = async () => {
-      const { form } = this.props;
-      const { state } = this;
-      form.validateFields(async (err, values) => {
-        if (err) {
-          return;
-        }
-        this.setState({ confirmLoading: true });
-        try {
-          const get = await fetch(
-            `${globals.BASE_URL}/api/admin/issue_action`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: this.props.token
-              },
-              body: JSON.stringify({
-                record: this.props.record,
-                action: state.selectedAction,
-                ...values
-              })
-            }
-          );
-          let data = await get.json();
-          form.resetFields();
-          console.log("fetched:data", data);
-          // this.setState({
-          //   data: data.data,
-          //   reportedBy: data.reportedBy,
-          //   wards: data.wards,
-          //   loading: false
-          // });
-        } catch (err) {
-          console.error(err);
-          this.setState({ confirmLoading: false });
-          Message.error(err.message);
-          // this.props.onCancel();
-        }
-
-        // console.log("Received values of form: ", values);
-
-        // this.setState({ visible: false });
-      });
-    };
     fetch = async () => {
       try {
         const get = await fetch(`${globals.BASE_URL}/api/issues/single`, {
@@ -418,7 +385,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       if (this.state.loading) {
         return <div></div>;
       }
-      const { visible, onCancel, onCreate, form } = this.props;
+      const { visible, onCancel, onCreate, form, record } = this.props;
       //  console.log("props:", this.props);
       //   const { images } = this.state.data;
       //  console.log("images", this.state.data);
@@ -461,8 +428,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         selectedAction,
         radioStatus,
         wards,
-        departments,
-        confirmLoading
+        departments
       } = this.state;
       const { fname, lname, email, phoneNumber } = reportedBy;
 
@@ -510,10 +476,9 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           okButtonProps={{
             disabled: this.state.key == 5 ? false : true
           }}
-          confirmLoading={confirmLoading}
           cancelText="Close"
           onCancel={onCancel}
-          onOk={this.handleSubmit}
+          onOk={onCreate}
         >
           <Tabs defaultActiveKey="1" onChange={this.callback}>
             <TabPane tab="Details" key="1">
@@ -756,15 +721,13 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                 ) : (
                   selectedAction == "close" && (
                     <>
-                      <Form.Item>
-                        <Alert
-                          message="Warning"
-                          description="This action cannot be reversed. Please provide the reason for
+                      <Alert
+                        message="Warning"
+                        description="This action cannot be reversed. Please provide the reason for
       closing this issue."
-                          type="warning"
-                        />
-                      </Form.Item>
-                      <Form.Item label="Reason">
+                        type="warning"
+                      />
+                      <Form.Item label="reason">
                         {form.getFieldDecorator("reason", {
                           rules: [
                             // {
@@ -781,23 +744,21 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                     </>
                   )
                 )}
-
-                {selectedAction !== "close" && (
-                  <Form.Item label="Message">
-                    {form.getFieldDecorator("message", {
-                      rules: [
-                        // {
-                        //   type: "email",
-                        //   message: "The input is not valid E-mail!"
-                        // },
-                        {
-                          required: true,
-                          message: "Please input your message!"
-                        }
-                      ]
-                    })(<TextArea rows={4} />)}
-                  </Form.Item>
-                )}
+               { selectedAction ! == "close" &&(
+                <Form.Item label="Message">
+                  {form.getFieldDecorator("message", {
+                    rules: [
+                      // {
+                      //   type: "email",
+                      //   message: "The input is not valid E-mail!"
+                      // },
+                      {
+                        required: true,
+                        message: "Please input your message!"
+                      }
+                    ]
+                  })(<TextArea rows={4} />)}
+                </Form.Item>)}
               </Form>
             </TabPane>
             {/* <TabPane tab="Respond" key="3">

@@ -149,6 +149,8 @@ class App extends React.Component {
     this.setState({ visible: false });
   };
 
+
+
   saveFormRef = formRef => {
     this.formRef = formRef;
   };
@@ -278,7 +280,7 @@ class App extends React.Component {
             confirmLoading={this.state.confirmLoading}
             visible={this.state.visible}
             onCancel={this.handleCancel}
-            //  onCreate={this.handleSubmit}
+          //  onCreate={this.handleSubmit}
           />
         )}
       </Card>
@@ -330,49 +332,39 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         //  "closed", //
       ]
     };
-    handleSubmit = async () => {
-      const { form } = this.props;
-      const { state } = this;
-      form.validateFields(async (err, values) => {
+    handleSubmit = async() => {
+
+      const { form } = this.formRef.props;
+      form.validateFields((err, values) => {
         if (err) {
           return;
         }
-        this.setState({ confirmLoading: true });
         try {
-          const get = await fetch(
-            `${globals.BASE_URL}/api/admin/issue_action`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: this.props.token
-              },
-              body: JSON.stringify({
-                record: this.props.record,
-                action: state.selectedAction,
-                ...values
-              })
-            }
-          );
+          const get = await fetch(`${globals.BASE_URL}/api/issues/single/action`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: this.props.token
+            },
+            body: JSON.stringify({ record: this.props.record, })
+          });
           let data = await get.json();
-          form.resetFields();
           console.log("fetched:data", data);
-          // this.setState({
-          //   data: data.data,
-          //   reportedBy: data.reportedBy,
-          //   wards: data.wards,
-          //   loading: false
-          // });
+          this.setState({
+            data: data.data,
+            reportedBy: data.reportedBy,
+            wards: data.wards,
+            loading: false
+          });
         } catch (err) {
           console.error(err);
-          this.setState({ confirmLoading: false });
-          Message.error(err.message);
-          // this.props.onCancel();
+          Message.error(err.message + " Closing Modal!");
+          this.props.onCancel();
         }
-
-        // console.log("Received values of form: ", values);
-
-        // this.setState({ visible: false });
+        this.setState({ confirmLoading: true });
+        console.log("Received values of form: ", values);
+        form.resetFields();
+        this.setState({ visible: false });
       });
     };
     fetch = async () => {
@@ -418,7 +410,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       if (this.state.loading) {
         return <div></div>;
       }
-      const { visible, onCancel, onCreate, form } = this.props;
+      const { visible, onCancel, onCreate, form,  } = this.props;
       //  console.log("props:", this.props);
       //   const { images } = this.state.data;
       //  console.log("images", this.state.data);
@@ -461,8 +453,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         selectedAction,
         radioStatus,
         wards,
-        departments,
-        confirmLoading
+        departments,confirmLoading
       } = this.state;
       const { fname, lname, email, phoneNumber } = reportedBy;
 

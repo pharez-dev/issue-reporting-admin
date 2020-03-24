@@ -340,7 +340,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         this.setState({ confirmLoading: true });
         try {
           const get = await fetch(
-            `${globals.BASE_URL}/api/admin/issue_action`,
+            `${globals.BASE_URL}/api/issues/single/action`,
             {
               method: "POST",
               headers: {
@@ -355,7 +355,6 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             }
           );
           let data = await get.json();
-          form.resetFields();
           console.log("fetched:data", data);
           // this.setState({
           //   data: data.data,
@@ -365,14 +364,13 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           // });
         } catch (err) {
           console.error(err);
-          this.setState({ confirmLoading: false });
           Message.error(err.message);
           // this.props.onCancel();
         }
-
-        // console.log("Received values of form: ", values);
-
-        // this.setState({ visible: false });
+        this.setState({ confirmLoading: true });
+        console.log("Received values of form: ", values);
+        form.resetFields();
+        this.setState({ visible: false });
       });
     };
     fetch = async () => {

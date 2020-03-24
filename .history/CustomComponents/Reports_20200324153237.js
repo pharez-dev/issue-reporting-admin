@@ -340,7 +340,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         this.setState({ confirmLoading: true });
         try {
           const get = await fetch(
-            `${globals.BASE_URL}/api/admin/issue_action`,
+            `${globals.BASE_URL}/api/issues/single/action`,
             {
               method: "POST",
               headers: {
