@@ -568,8 +568,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           title="Reported Issue"
           okText={"Submit"}
           okButtonProps={{
-            disabled:
-              this.state.key == 5 && escalated.to.length == 0 ? false : true
+            disabled: this.state.key == 5 ? false : true
           }}
           confirmLoading={confirmLoading}
           cancelText="Close"
@@ -665,7 +664,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             </TabPane>
             {status !== "closed" && (
               <TabPane tab="Actions" key="5">
-                {escalated.to.length > 0 ? (
+                {escalated ? (
                   escalated.bool && (
                     <div
                       css={`

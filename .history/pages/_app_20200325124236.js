@@ -15,61 +15,51 @@ import { withRouter } from "next/router";
 import { GlobalContextProvider } from "../context/global";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
+//Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
-
+Router.events.on("routeChangeComplete", () => {
+  if (process.env.NODE_ENV !== "production") {
+    const els = document.querySelectorAll(
+      'link[href*="/_next/static/css/styles.chunk.css"]'
+    );
+    const timestamp = new Date().valueOf();
+    els[0].href = "/_next/static/css/styles.chunk.css?v=" + timestamp;
+  }
+});
 class MyApp extends App {
   state = {
     user: null
   };
   static async getInitialProps({ Component, ctx, req, res }) {
     let pageProps = {};
-    try {
-      const userAgent = ctx.req
-        ? ctx.req.headers["user-agent"]
-        : navigator.userAgent;
 
-      let ie = false;
-      if (
-        userAgent.match(/Edge/i) ||
-        userAgent.match(/Trident.*rv[ :]*11\./i)
-      ) {
-        ie = true;
-      }
-      //console.log("INITIAL PROPS", Component);
-      if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-      }
+    const userAgent = ctx.req
+      ? ctx.req.headers["user-agent"]
+      : navigator.userAgent;
 
-      //  console.log("[pageProps]", pageProps);
-      pageProps.query = ctx.query;
-      pageProps.ieBrowser = ie;
-      const user = pageProps.token ? jwt_decode(pageProps.token) : null;
+    let ie = false;
+    if (userAgent.match(/Edge/i) || userAgent.match(/Trident.*rv[ :]*11\./i)) {
+      ie = true;
+    }
+    //console.log("INITIAL PROPS", Component);
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
 
-      let allowed = true;
+    //  console.log("[pageProps]", pageProps);
+    pageProps.query = ctx.query;
+    pageProps.ieBrowser = ie;
+    const user = pageProps.token ? jwt_decode(pageProps.token) : null;
 
-      if (
-        ctx.pathname !== "/" &&
-        ctx.pathname !== "/signin" &&
-        ctx.pathname !== "/forgot"
-      ) {
-        const role = user.role;
-        if (ctx.pathname.startsWith("/admin") && role !== "admin") {
-          allowed = false;
-        }
+    let allowed = true;
+    if (ctx.pathname !== "/") {
+      const role = user.role;
+      if (ctx.pathname.startsWith("/admin") && role !== "admin") {
+        allowed = false;
       }
-      console.log("[ctx]", "[allowed]", allowed);
-      if (!allowed) {
-        if (ctx.req) {
-          // If `ctx.req` is available it means we are on the server.
-          ctx.res.writeHead(302, { Location: "/" });
-          ctx.res.end();
-        } else {
-          // This should only happen on client.
-          Router.push("/");
-        }
-      }
-    } catch (err) {
+    }
+    console.log("[ctx]", "[allowed]", allowed);
+    if (!allowed) {
       if (ctx.req) {
         // If `ctx.req` is available it means we are on the server.
         ctx.res.writeHead(302, { Location: "/" });
@@ -79,7 +69,6 @@ class MyApp extends App {
         Router.push("/");
       }
     }
-
     return {
       pageProps
     };

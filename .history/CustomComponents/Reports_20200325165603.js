@@ -569,7 +569,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           okText={"Submit"}
           okButtonProps={{
             disabled:
-              this.state.key == 5 && escalated.to.length == 0 ? false : true
+              this.state.key !== 5 || escalated.to.length > 0 ? true : false
           }}
           confirmLoading={confirmLoading}
           cancelText="Close"

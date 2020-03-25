@@ -9,8 +9,7 @@ import NProgress from "nprogress";
 import Page from "../components/Page";
 import Router from "next/router";
 import jwt_decode from "jwt-decode";
-import { withRouter } from "next/router";
-
+import { useRouter } from "next/router";
 //Context
 import { GlobalContextProvider } from "../context/global";
 
@@ -24,62 +23,43 @@ class MyApp extends App {
   };
   static async getInitialProps({ Component, ctx, req, res }) {
     let pageProps = {};
-    try {
-      const userAgent = ctx.req
-        ? ctx.req.headers["user-agent"]
-        : navigator.userAgent;
 
-      let ie = false;
-      if (
-        userAgent.match(/Edge/i) ||
-        userAgent.match(/Trident.*rv[ :]*11\./i)
-      ) {
-        ie = true;
-      }
-      //console.log("INITIAL PROPS", Component);
-      if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-      }
+    const userAgent = ctx.req
+      ? ctx.req.headers["user-agent"]
+      : navigator.userAgent;
 
-      //  console.log("[pageProps]", pageProps);
-      pageProps.query = ctx.query;
-      pageProps.ieBrowser = ie;
-      const user = pageProps.token ? jwt_decode(pageProps.token) : null;
+    let ie = false;
+    if (userAgent.match(/Edge/i) || userAgent.match(/Trident.*rv[ :]*11\./i)) {
+      ie = true;
+    }
+    //console.log("INITIAL PROPS", Component);
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
 
-      let allowed = true;
+    //  console.log("[pageProps]", pageProps);
+    pageProps.query = ctx.query;
+    pageProps.ieBrowser = ie;
+    const user = pageProps.token ? jwt_decode(pageProps.token) : null;
 
-      if (
-        ctx.pathname !== "/" &&
-        ctx.pathname !== "/signin" &&
-        ctx.pathname !== "/forgot"
-      ) {
-        const role = user.role;
-        if (ctx.pathname.startsWith("/admin") && role !== "admin") {
-          allowed = false;
-        }
+    let allowed = true;
+    if (ctx.pathname !== "/") {
+      const role = user.role;
+      if (ctx.pathname.startsWith("hello") && role !== "admin") {
+        allowed = false;
       }
-      console.log("[ctx]", "[allowed]", allowed);
-      if (!allowed) {
-        if (ctx.req) {
-          // If `ctx.req` is available it means we are on the server.
-          ctx.res.writeHead(302, { Location: "/" });
-          ctx.res.end();
-        } else {
-          // This should only happen on client.
-          Router.push("/");
-        }
-      }
-    } catch (err) {
-      if (ctx.req) {
+    }
+    console.log("[ctx]", ctx, "[allowed]", allowed);
+    if (!allowed) {
+      if (req) {
         // If `ctx.req` is available it means we are on the server.
-        ctx.res.writeHead(302, { Location: "/" });
-        ctx.res.end();
+        res.writeHead(302, { Location: "/" });
+        res.end();
       } else {
         // This should only happen on client.
         Router.push("/");
       }
     }
-
     return {
       pageProps
     };
@@ -87,7 +67,12 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-
+    const user = pageProps.token ? jwt_decode(pageProps.token) : null;
+    //   const role = user.role;
+    let allowed = true;
+    //   const router = useRouter();
+    const ComponentToRender = allowed ? Component : Home;
+    console.log("Page props]", pageProps);
     return (
       <Container>
         <GlobalStyles />
@@ -115,7 +100,7 @@ class MyApp extends App {
         <AppProvider>
           <GlobalContextProvider>
             <Page>
-              <Component {...pageProps} />
+              <ComponentToRender {...pageProps} />
             </Page>
           </GlobalContextProvider>
         </AppProvider>
@@ -124,4 +109,4 @@ class MyApp extends App {
   }
 }
 
-export default withRouter(MyApp);
+export default MyApp;

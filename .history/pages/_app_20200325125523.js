@@ -48,11 +48,7 @@ class MyApp extends App {
 
       let allowed = true;
 
-      if (
-        ctx.pathname !== "/" &&
-        ctx.pathname !== "/signin" &&
-        ctx.pathname !== "/forgot"
-      ) {
+      if (ctx.pathname !== "/" && ctx.pathname !== "/signin") {
         const role = user.role;
         if (ctx.pathname.startsWith("/admin") && role !== "admin") {
           allowed = false;

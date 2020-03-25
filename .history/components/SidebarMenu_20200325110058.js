@@ -20,13 +20,10 @@ import DashHeader from "./styles/Header";
 import Inner from "./styles/Sidebar";
 import Link from "next/link";
 import Routes from "../lib/routes";
-import adminRoutes from "../lib/adminRoutes";
 import { useAppState } from "./shared/AppProvider";
 import { withRouter } from "next/router";
 import { withGlobalContext } from "../context/global";
-import { Cookies } from "react-cookie";
-import jwt_decode from "jwt-decode";
-const cookies = new Cookies();
+
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 
@@ -54,21 +51,32 @@ const SidebarContent = ({
   collapsed,
   router
 }) => {
-  let token = cookies.get("token");
-  let user = global.user;
-  if (token) user = jwt_decode(token);
-
   const [state, dispatch] = useAppState();
   const [openKeys, setOpenKeys] = useState([]);
-
-  const [appRoutes] = useState(
-    user ? (user.role == "admin" ? adminRoutes : Routes) : Routes
-  );
+  const [appRoutes, setRoutes] = useState(Routes);
+  const [user, setUser] = useState(global.user);
   const { pathname } = router;
 
   const badgeTemplate = badge => <Badge count={badge.value} />;
-
+  if (!user && global.user) setUser(global.user);
   useEffect(() => {
+    let newRoutes = appRoutes.map(route => {
+      if (route.path !== "/" && !global.isLoadingState) {
+        route.path =
+          user.role == "admin"
+            ? "/admin" + route.path
+            : user.role == "subcounty admin"
+            ? "/subcounty_admin" + route.path
+            : user.role == "ward admin"
+            ? "/ward_admin" + route.path
+            : null;
+        return route;
+      } else {
+        return route;
+      }
+    });
+    console.log("new Routes", newRoutes, user);
+    setRoutes(newRoutes);
     appRoutes.forEach((route, index) => {
       const isCurrentPath =
         pathname.indexOf(lowercase(route.name)) > -1 ? true : false;
@@ -99,16 +107,6 @@ const SidebarContent = ({
         onOpenChange={onOpenChange}
       >
         {appRoutes.map((route, index) => {
-          // if (route.path !== "/" && !global.isLoadingState )
-          //   route.path =
-          //     user.role == "admin"
-          //       ? "/admin" + route.path
-          //       : user.role == "subcounty admin"
-          //       ? "/subcounty_admin" + route.path
-          //       : user.role == "ward admin"
-          //       ? "/ward_admin" + route.path
-          //       : route.path;
-
           const hasChildren = route.children ? true : false;
           if (!hasChildren)
             return (

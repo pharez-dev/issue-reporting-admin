@@ -20,12 +20,12 @@ import DashHeader from "./styles/Header";
 import Inner from "./styles/Sidebar";
 import Link from "next/link";
 import Routes from "../lib/routes";
-import adminRoutes from "../lib/adminRoutes";
+import adminRouters from "../lib/adminRoutes";
 import { useAppState } from "./shared/AppProvider";
 import { withRouter } from "next/router";
 import { withGlobalContext } from "../context/global";
 import { Cookies } from "react-cookie";
-import jwt_decode from "jwt-decode";
+
 const cookies = new Cookies();
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
@@ -54,16 +54,10 @@ const SidebarContent = ({
   collapsed,
   router
 }) => {
-  let token = cookies.get("token");
-  let user = global.user;
-  if (token) user = jwt_decode(token);
-
+  const user = global.user;
   const [state, dispatch] = useAppState();
   const [openKeys, setOpenKeys] = useState([]);
-
-  const [appRoutes] = useState(
-    user ? (user.role == "admin" ? adminRoutes : Routes) : Routes
-  );
+  const [appRoutes] = useState(Routes);
   const { pathname } = router;
 
   const badgeTemplate = badge => <Badge count={badge.value} />;

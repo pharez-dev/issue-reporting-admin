@@ -9,7 +9,6 @@ import NProgress from "nprogress";
 import Page from "../components/Page";
 import Router from "next/router";
 import jwt_decode from "jwt-decode";
-import { withRouter } from "next/router";
 
 //Context
 import { GlobalContextProvider } from "../context/global";
@@ -22,72 +21,33 @@ class MyApp extends App {
   state = {
     user: null
   };
-  static async getInitialProps({ Component, ctx, req, res }) {
+  static async getInitialProps({ Component, ctx, req }) {
     let pageProps = {};
-    try {
-      const userAgent = ctx.req
-        ? ctx.req.headers["user-agent"]
-        : navigator.userAgent;
 
-      let ie = false;
-      if (
-        userAgent.match(/Edge/i) ||
-        userAgent.match(/Trident.*rv[ :]*11\./i)
-      ) {
-        ie = true;
-      }
-      //console.log("INITIAL PROPS", Component);
-      if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-      }
+    const userAgent = ctx.req
+      ? ctx.req.headers["user-agent"]
+      : navigator.userAgent;
 
-      //  console.log("[pageProps]", pageProps);
-      pageProps.query = ctx.query;
-      pageProps.ieBrowser = ie;
-      const user = pageProps.token ? jwt_decode(pageProps.token) : null;
-
-      let allowed = true;
-
-      if (
-        ctx.pathname !== "/" &&
-        ctx.pathname !== "/signin" &&
-        ctx.pathname !== "/forgot"
-      ) {
-        const role = user.role;
-        if (ctx.pathname.startsWith("/admin") && role !== "admin") {
-          allowed = false;
-        }
-      }
-      console.log("[ctx]", "[allowed]", allowed);
-      if (!allowed) {
-        if (ctx.req) {
-          // If `ctx.req` is available it means we are on the server.
-          ctx.res.writeHead(302, { Location: "/" });
-          ctx.res.end();
-        } else {
-          // This should only happen on client.
-          Router.push("/");
-        }
-      }
-    } catch (err) {
-      if (ctx.req) {
-        // If `ctx.req` is available it means we are on the server.
-        ctx.res.writeHead(302, { Location: "/" });
-        ctx.res.end();
-      } else {
-        // This should only happen on client.
-        Router.push("/");
-      }
+    let ie = false;
+    if (userAgent.match(/Edge/i) || userAgent.match(/Trident.*rv[ :]*11\./i)) {
+      ie = true;
     }
-
+    //console.log("INITIAL PROPS", Component);
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+    //  console.log("[pageProps]", pageProps);
+    pageProps.query = ctx.query;
+    pageProps.ieBrowser = ie;
     return {
-      pageProps
+      pageProps,
+      user: pageProps.token ? jwt_decode(pageProps.token) : null
     };
   }
 
   render() {
     const { Component, pageProps } = this.props;
-
+    console.log("Page props]", pageProps);
     return (
       <Container>
         <GlobalStyles />
@@ -124,4 +84,4 @@ class MyApp extends App {
   }
 }
 
-export default withRouter(MyApp);
+export default MyApp;

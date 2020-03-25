@@ -20,7 +20,7 @@ import DashHeader from "./styles/Header";
 import Inner from "./styles/Sidebar";
 import Link from "next/link";
 import Routes from "../lib/routes";
-import adminRoutes from "../lib/adminRoutes";
+import adminRouters from "../lib/adminRoutes";
 import { useAppState } from "./shared/AppProvider";
 import { withRouter } from "next/router";
 import { withGlobalContext } from "../context/global";

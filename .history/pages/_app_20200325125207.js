@@ -47,12 +47,7 @@ class MyApp extends App {
       const user = pageProps.token ? jwt_decode(pageProps.token) : null;
 
       let allowed = true;
-
-      if (
-        ctx.pathname !== "/" &&
-        ctx.pathname !== "/signin" &&
-        ctx.pathname !== "/forgot"
-      ) {
+      if (ctx.pathname !== "/") {
         const role = user.role;
         if (ctx.pathname.startsWith("/admin") && role !== "admin") {
           allowed = false;

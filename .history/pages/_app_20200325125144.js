@@ -47,12 +47,7 @@ class MyApp extends App {
       const user = pageProps.token ? jwt_decode(pageProps.token) : null;
 
       let allowed = true;
-
-      if (
-        ctx.pathname !== "/" &&
-        ctx.pathname !== "/signin" &&
-        ctx.pathname !== "/forgot"
-      ) {
+      if (ctx.pathname !== "/") {
         const role = user.role;
         if (ctx.pathname.startsWith("/admin") && role !== "admin") {
           allowed = false;
@@ -70,13 +65,15 @@ class MyApp extends App {
         }
       }
     } catch (err) {
-      if (ctx.req) {
-        // If `ctx.req` is available it means we are on the server.
-        ctx.res.writeHead(302, { Location: "/" });
-        ctx.res.end();
-      } else {
-        // This should only happen on client.
-        Router.push("/");
+      if (!allowed) {
+        if (ctx.req) {
+          // If `ctx.req` is available it means we are on the server.
+          ctx.res.writeHead(302, { Location: "/" });
+          ctx.res.end();
+        } else {
+          // This should only happen on client.
+          Router.push("/");
+        }
       }
     }
 
