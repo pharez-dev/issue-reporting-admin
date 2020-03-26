@@ -125,17 +125,14 @@ class App extends React.Component {
     if (Object.entries(params).length == 0)
       params = {
         ...this.state.tfilters,
-        sortField: this.state.sortField,
-        sortOrder: this.state.sortOrder
+        ...this.state.sortField,
+        ...this.state.sortOrder
       };
     console.log("params:", params);
     this.setState({ loading: true });
     try {
       reqwest({
         url: `${globals.BASE_URL}/api/issues/all`,
-        headers: {
-          Authorization: this.props.token
-        },
         method: "post",
         data: {
           limit: 10,

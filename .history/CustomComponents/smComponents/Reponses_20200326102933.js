@@ -71,7 +71,7 @@ class Response extends Component {
                         style={{ float: "right", color: "rgb(118, 117, 117)" }}
                       >
                         {" "}
-                        {moment(each.time).format("YYYY-MM-DD")}
+                        {each.time}
                       </span>
                     </div>
                   }

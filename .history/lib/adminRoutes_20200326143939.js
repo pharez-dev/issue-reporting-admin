@@ -1,4 +1,4 @@
-import { Home, List, Users } from "react-feather";
+import { Home, List } from "react-feather";
 export default [
   {
     path: "/",
@@ -17,9 +17,9 @@ export default [
     // ]
   },
   {
-    path: "/admin/users",
-    name: "Users",
-    icon: <Users strokeWidth={1} size={16} />
+    path: "/admin/reports",
+    name: "Reported Issues",
+    icon: <List strokeWidth={1} size={16} />
     // children: [
     //   {
     //     path: "/reports/full",

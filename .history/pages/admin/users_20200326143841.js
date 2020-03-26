@@ -15,14 +15,14 @@ const ReportsPage = props => {
       >
         <Breadcrumb.Item
           href="#"
-          // onClick={() => {
-          //   Router.push("/");
-          // }}
+          onClick={() => {
+            Router.push("/");
+          }}
         >
           <Icon style={{ marginTop: "-4px" }} type="home" />
         </Breadcrumb.Item>
         <Breadcrumb.Item href="#">
-          <span>Reports</span>
+          <span>Users</span>
         </Breadcrumb.Item>
       </Breadcrumb>
       <Reports {...props} />

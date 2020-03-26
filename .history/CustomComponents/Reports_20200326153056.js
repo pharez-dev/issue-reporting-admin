@@ -134,6 +134,7 @@ class App extends React.Component {
       reqwest({
         url: `${globals.BASE_URL}/api/issues/all`,
         headers: {
+          "Content-Type": "application/json",
           Authorization: this.props.token
         },
         method: "post",

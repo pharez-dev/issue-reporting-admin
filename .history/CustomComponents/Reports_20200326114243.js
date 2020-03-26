@@ -122,20 +122,12 @@ class App extends React.Component {
     });
   };
   fetch = async (params = {}) => {
-    if (Object.entries(params).length == 0)
-      params = {
-        ...this.state.tfilters,
-        sortField: this.state.sortField,
-        sortOrder: this.state.sortOrder
-      };
+    if (Object.entries(params).length == 0) params = this.state.tfilters;
     console.log("params:", params);
     this.setState({ loading: true });
     try {
       reqwest({
         url: `${globals.BASE_URL}/api/issues/all`,
-        headers: {
-          Authorization: this.props.token
-        },
         method: "post",
         data: {
           limit: 10,

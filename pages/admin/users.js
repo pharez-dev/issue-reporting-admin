@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Breadcrumb, Icon } from "antd";
-import Reports from "../../CustomComponents/Reports";
+import Users from "../../CustomComponents/Users";
 //For checking if token is valid
 import { parseCookies } from "../../lib/helpers";
 import authCheck from "../../lib/AuthCheck";
@@ -15,17 +15,17 @@ const ReportsPage = props => {
       >
         <Breadcrumb.Item
           href="#"
-          // onClick={() => {
-          //   Router.push("/");
-          // }}
+          //   onClick={() => {
+          //     Router.push("/");
+          //   }}
         >
           <Icon style={{ marginTop: "-4px" }} type="home" />
         </Breadcrumb.Item>
         <Breadcrumb.Item href="#">
-          <span>Reports</span>
+          <span>Users</span>
         </Breadcrumb.Item>
       </Breadcrumb>
-      <Reports {...props} />
+      <Users {...props} />
     </>
     // <>
     //   <Head>

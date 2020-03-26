@@ -132,10 +132,10 @@ class App extends React.Component {
     this.setState({ loading: true });
     try {
       reqwest({
-        url: `${globals.BASE_URL}/api/issues/all`,
-        headers: {
+        url: `${globals.BASE_URL}/api/issues/all`, headers: {
+          "Content-Type": "application/json",
           Authorization: this.props.token
-        },
+        },,
         method: "post",
         data: {
           limit: 10,

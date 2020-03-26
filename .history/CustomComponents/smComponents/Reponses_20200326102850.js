@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { Card, Avatar } from "antd";
 import Capitalize from "../../lib/Capitalize";
-import moment from "moment";
 const { Meta } = Card;
 class Response extends Component {
   state = {
@@ -71,7 +70,7 @@ class Response extends Component {
                         style={{ float: "right", color: "rgb(118, 117, 117)" }}
                       >
                         {" "}
-                        {moment(each.time).format("YYYY-MM-DD")}
+                        {each.time}
                       </span>
                     </div>
                   }

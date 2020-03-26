@@ -34,7 +34,12 @@ const columns = [
   {
     sorter: true,
     title: "Issue Type",
-    dataIndex: "type"
+    dataIndex: "type",
+    filters: [
+      { text: "Water and sanitation", value: "Water and sanitation" },
+      { text: "Housing and land", value: "Housing and land" },
+      { text: "Agriculture and livestock", value: "Agriculture and livestock" }
+    ]
   },
   {
     sorter: true,
@@ -92,10 +97,7 @@ class App extends React.Component {
     const pager = { ...this.state.pagination };
     pager.current = pagination.current;
     this.setState({
-      pagination: pager,
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      tfilters: filters
+      pagination: pager
     });
     this.fetch({
       results: pagination.pageSize,
@@ -113,7 +115,7 @@ class App extends React.Component {
       filters.push(value);
     }
     this.setState({ filters }, () => {
-      this.fetch();
+      this.handleTableChange();
     });
   };
   clearFilters = () => {
@@ -122,20 +124,11 @@ class App extends React.Component {
     });
   };
   fetch = async (params = {}) => {
-    if (Object.entries(params).length == 0)
-      params = {
-        ...this.state.tfilters,
-        sortField: this.state.sortField,
-        sortOrder: this.state.sortOrder
-      };
-    console.log("params:", params);
+    // console.log("params:", params);
     this.setState({ loading: true });
     try {
       reqwest({
         url: `${globals.BASE_URL}/api/issues/all`,
-        headers: {
-          Authorization: this.props.token
-        },
         method: "post",
         data: {
           limit: 10,

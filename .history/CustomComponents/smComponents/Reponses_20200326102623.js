@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { Card, Avatar } from "antd";
 import Capitalize from "../../lib/Capitalize";
-import moment from "moment";
 const { Meta } = Card;
 class Response extends Component {
   state = {
@@ -41,37 +40,21 @@ class Response extends Component {
                         display: "block"
                       }}
                     >
-                      {each.statusTo !== "closed" ? (
-                        <>
-                          <b>
-                            <Capitalize text={each.by.fname} />{" "}
-                            <Capitalize text={each.by.lname} /> (
-                            <Capitalize text={each.by.role} />) updated status
-                            to
-                            <span style={{ marginLeft: "10px", color: "#000" }}>
-                              <Capitalize text={each.statusTo} />
-                            </span>
-                          </b>
-                          <br />
-                          Message: {each.message}
-                        </>
-                      ) : (
-                        <>
-                          <b>
-                            <Capitalize text={each.by.fname} />{" "}
-                            <Capitalize text={each.by.lname} /> (
-                            <Capitalize text={each.by.role} />) closed this
-                            issue.
-                          </b>
-                          <br />
-                          Reason: {each.message}
-                        </>
-                      )}
+                      <b>
+                        <Capitalize text={each.by.fname} />{" "}
+                        <Capitalize text={each.by.lname} /> (
+                        <Capitalize text={each.by.role} />) updated status to
+                        <span style={{ marginLeft: "10px", color: "#000" }}>
+                          <Capitalize text={each.statusTo} />
+                        </span>
+                      </b>
+                      <br />
+                      Message: {each.message}
                       <span
                         style={{ float: "right", color: "rgb(118, 117, 117)" }}
                       >
                         {" "}
-                        {moment(each.time).format("YYYY-MM-DD")}
+                        {each.time}
                       </span>
                     </div>
                   }
