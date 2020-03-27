@@ -23,8 +23,6 @@ import Router from "next/router";
 import fetch from "isomorphic-unfetch";
 import Capitalized from "../lib/Capitalize";
 import Capitalize from "../lib/Capitalize";
-import NewOfficial from "./smComponents/NewOfficial";
-import FullUser from "./smComponents/FullUser";
 const columns = [
   {
     title: "User ID",
@@ -80,7 +78,7 @@ const columns = [
   },
 
   {
-    title: "Joined",
+    title: "created On",
     dataIndex: "createdAt",
     sorter: true,
     render: at => moment(at).format("YYYY-MM-DD")
@@ -174,19 +172,14 @@ class App extends React.Component {
       this.setState({ loading: false });
     }
   };
-  shownModal = () => {
-    this.setState({ visiblen: true });
-  };
-  showUser = () => {
-    this.setState({ visibleu: true });
+  showModal = () => {
+    this.setState({ visible: true });
   };
 
-  handlenCancel = () => {
-    this.setState({ visiblen: false });
+  handleCancel = () => {
+    this.setState({ visible: false });
   };
-  handleuCancel = () => {
-    this.setState({ visibleu: false });
-  };
+
   saveFormRef = formRef => {
     this.formRef = formRef;
   };
@@ -232,7 +225,7 @@ class App extends React.Component {
                   style={{ display: "block" }}
                   type={"primary"}
                   icon="plus"
-                  onClick={() => this.shownModal()}
+                  onClick={() => this.set("Housing and land")}
                 >
                   New Official
                 </Button>{" "}
@@ -247,7 +240,7 @@ class App extends React.Component {
             onRow={(record, rowIndex) => {
               return {
                 onClick: event => {
-                  this.setState({ mdRecord: record._id }), this.showUser();
+                  this.setState({ mdRecord: record._id }), this.showModal();
 
                   // Router.push({
                   //   pathname: "/reports/full",
@@ -264,26 +257,17 @@ class App extends React.Component {
             onChange={this.handleTableChange}
           />
         </div>
-        {state.visibleu && (
-          <FullUser
+        {/* {state.visible && (
+          <CollectionCreateForm
             token={this.props.token}
             record={state.mdRecord}
             wrappedComponentRef={this.saveFormRef}
-            visible={this.state.visibleu}
-            onCancel={this.handleuCancel}
+            confirmLoading={this.state.confirmLoading}
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
             //  onCreate={this.handleSubmit}
           />
-        )}
-        {state.visiblen && (
-          <NewOfficial
-            token={this.props.token}
-            // record={state.mdRecord}
-            wrappedComponentRef={this.saveFormRef}
-            visible={this.state.visiblen}
-            onCancel={this.handlenCancel}
-            //  onCreate={this.handleSubmit}
-          />
-        )}
+        )} */}
       </Card>
     );
   }

@@ -80,7 +80,7 @@ const columns = [
   },
 
   {
-    title: "Joined",
+    title: "created On",
     dataIndex: "createdAt",
     sorter: true,
     render: at => moment(at).format("YYYY-MM-DD")

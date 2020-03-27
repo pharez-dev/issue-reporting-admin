@@ -80,7 +80,7 @@ const columns = [
   },
 
   {
-    title: "Joined",
+    title: "created On",
     dataIndex: "createdAt",
     sorter: true,
     render: at => moment(at).format("YYYY-MM-DD")
@@ -177,7 +177,7 @@ class App extends React.Component {
   shownModal = () => {
     this.setState({ visiblen: true });
   };
-  showUser = () => {
+  shownUser = () => {
     this.setState({ visibleu: true });
   };
 
@@ -269,8 +269,8 @@ class App extends React.Component {
             token={this.props.token}
             record={state.mdRecord}
             wrappedComponentRef={this.saveFormRef}
-            visible={this.state.visibleu}
-            onCancel={this.handleuCancel}
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
             //  onCreate={this.handleSubmit}
           />
         )}
