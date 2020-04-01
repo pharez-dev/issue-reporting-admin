@@ -245,7 +245,7 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
                 ]
               })(<Input style={{ width: "calc(92% - 50px)" }} />)}
             </Form.Item>
-            <Form.Item label="Phone Number(7XXXXXXX)">
+            <Form.Item label="Phone Number">
               {getFieldDecorator("phone", {
                 rules: [
                   { required: true, message: "Please input your phone number!" }

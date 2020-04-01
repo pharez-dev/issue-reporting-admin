@@ -94,8 +94,15 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
 
           if (!data.success) throw new Error(data.message);
           form.resetFields();
-          Message.success("Official was added successfully and email was sent");
+          console.log("re fetched:data", data);
+          let record = data.issue;
+          let selectedAction = "respond";
+          if (record.status == "resolved") selectedAction = "close";
           this.setState({
+            data: data.issue,
+            selectedAction,
+            //  reportedBy: data.reportedBy,
+            // wards: data.wards,
             confirmLoading: false
           });
         } catch (err) {
@@ -245,7 +252,7 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
                 ]
               })(<Input style={{ width: "calc(92% - 50px)" }} />)}
             </Form.Item>
-            <Form.Item label="Phone Number(7XXXXXXX)">
+            <Form.Item label="Phone Number">
               {getFieldDecorator("phone", {
                 rules: [
                   { required: true, message: "Please input your phone number!" }
