@@ -7,17 +7,6 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
     state = {
       roles: ["sub-county-admin", "ward-admin", "department-official"],
-      departments: [
-        "Agriculture, Livestock Veterinary Services & Fisheries",
-        "Finance, Public Planning and ICT",
-        "Health Services and Public Health",
-        "Education and VocationTraining",
-        "Lands and Physical Planning and Urban Development",
-        "Roads, Public Works, Housing and Energy",
-        "Trade, Co-operatives and Enterprise Development",
-        "Water, Irrigation, Environment and Natural Resources",
-        "Public Service, Administration and Citizen Participation"
-      ],
       role: null,
       counties: [],
       county: null,
@@ -157,8 +146,7 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
         wards,
         role,
         confirmLoading,
-        loadingWards,
-        departments
+        loadingWards
       } = this.state;
       const formItemLayout = {
         labelCol: { span: 4 },
@@ -196,13 +184,6 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
         return (
           <Option key={i + each.name} value={each.name}>
             {each.name}
-          </Option>
-        );
-      });
-      const renderDepartments = departments.map((each, i) => {
-        return (
-          <Option key={i + each} value={each}>
-            {each}
           </Option>
         );
       });
@@ -324,39 +305,11 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
                   </Select>
                 )}
               </Form.Item>
-              {role !== "department-official" && (
-                <Form.Item
-                  style={{ width: "calc(43% )", display: "inline-block" }}
-                >
-                  {getFieldDecorator("subCounty", {
-                    rules: [
-                      // {
-                      //   type: "email",
-                      //   message: "The input is not valid E-mail!"
-                      // },
-                      {
-                        required: true,
-                        message: "Please select sub county!"
-                      }
-                    ]
-                  })(
-                    <Select
-                      // defaultValue="lucy"
-                      disabled={subCounties.length == 0}
-                      placeholder="Select Sub County"
-                      style={{ width: "90%" }}
-                      onChange={this.handleSubCountySelect}
-                    >
-                      {renderSubCounties}
-                    </Select>
-                  )}
-                </Form.Item>
-              )}{" "}
-            </Form.Item>
-
-            {role == "department-official" && (
-              <Form.Item label="Department">
-                {getFieldDecorator("department", {
+              
+             {role !== "department-official" &&(<Form.Item
+                style={{ width: "calc(43% )", display: "inline-block" }}
+              >
+                {getFieldDecorator("subCounty", {
                   rules: [
                     // {
                     //   type: "email",
@@ -364,20 +317,22 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
                     // },
                     {
                       required: true,
-                      message: "Please select department!"
+                      message: "Please select sub county!"
                     }
                   ]
                 })(
                   <Select
-                    placeholder="Select Department"
+                    // defaultValue="lucy"
+                    disabled={subCounties.length == 0}
+                    placeholder="Select Sub County"
                     style={{ width: "90%" }}
-                    // onChange={this.handleSubCountySelect}
+                    onChange={this.handleSubCountySelect}
                   >
-                    {renderDepartments}
+                    {renderSubCounties}
                   </Select>
                 )}
               </Form.Item>
-            )}
+            </Form.Item>) } 
             {role == "ward-admin" && (
               <Spin tip="Loading wards..." spinning={this.state.loadingWards}>
                 <Form.Item label="Ward">

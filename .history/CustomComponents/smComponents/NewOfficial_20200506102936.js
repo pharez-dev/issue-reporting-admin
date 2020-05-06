@@ -16,7 +16,8 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
         "Roads, Public Works, Housing and Energy",
         "Trade, Co-operatives and Enterprise Development",
         "Water, Irrigation, Environment and Natural Resources",
-        "Public Service, Administration and Citizen Participation"
+        "Public Service, Administration and Citizen Participation",
+        "Roads, Public Works, Housing and Energy"
       ],
       role: null,
       counties: [],

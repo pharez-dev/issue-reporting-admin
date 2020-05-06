@@ -8,15 +8,11 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
     state = {
       roles: ["sub-county-admin", "ward-admin", "department-official"],
       departments: [
-        "Agriculture, Livestock Veterinary Services & Fisheries",
-        "Finance, Public Planning and ICT",
-        "Health Services and Public Health",
-        "Education and VocationTraining",
-        "Lands and Physical Planning and Urban Development",
-        "Roads, Public Works, Housing and Energy",
-        "Trade, Co-operatives and Enterprise Development",
-        "Water, Irrigation, Environment and Natural Resources",
-        "Public Service, Administration and Citizen Participation"
+        "Housing and land",
+        "Water and sanitation",
+        "Roads and Transport",
+        "Agriculture and livestock",
+        "Bursery allocations"
       ],
       role: null,
       counties: [],

@@ -7,17 +7,6 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
     state = {
       roles: ["sub-county-admin", "ward-admin", "department-official"],
-      departments: [
-        "Agriculture, Livestock Veterinary Services & Fisheries",
-        "Finance, Public Planning and ICT",
-        "Health Services and Public Health",
-        "Education and VocationTraining",
-        "Lands and Physical Planning and Urban Development",
-        "Roads, Public Works, Housing and Energy",
-        "Trade, Co-operatives and Enterprise Development",
-        "Water, Irrigation, Environment and Natural Resources",
-        "Public Service, Administration and Citizen Participation"
-      ],
       role: null,
       counties: [],
       county: null,
@@ -157,8 +146,7 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
         wards,
         role,
         confirmLoading,
-        loadingWards,
-        departments
+        loadingWards
       } = this.state;
       const formItemLayout = {
         labelCol: { span: 4 },
@@ -196,13 +184,6 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
         return (
           <Option key={i + each.name} value={each.name}>
             {each.name}
-          </Option>
-        );
-      });
-      const renderDepartments = departments.map((each, i) => {
-        return (
-          <Option key={i + each} value={each}>
-            {each}
           </Option>
         );
       });
@@ -353,31 +334,6 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
                 </Form.Item>
               )}{" "}
             </Form.Item>
-
-            {role == "department-official" && (
-              <Form.Item label="Department">
-                {getFieldDecorator("department", {
-                  rules: [
-                    // {
-                    //   type: "email",
-                    //   message: "The input is not valid E-mail!"
-                    // },
-                    {
-                      required: true,
-                      message: "Please select department!"
-                    }
-                  ]
-                })(
-                  <Select
-                    placeholder="Select Department"
-                    style={{ width: "90%" }}
-                    // onChange={this.handleSubCountySelect}
-                  >
-                    {renderDepartments}
-                  </Select>
-                )}
-              </Form.Item>
-            )}
             {role == "ward-admin" && (
               <Spin tip="Loading wards..." spinning={this.state.loadingWards}>
                 <Form.Item label="Ward">

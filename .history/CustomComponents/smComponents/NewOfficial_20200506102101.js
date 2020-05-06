@@ -8,15 +8,11 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
     state = {
       roles: ["sub-county-admin", "ward-admin", "department-official"],
       departments: [
-        "Agriculture, Livestock Veterinary Services & Fisheries",
-        "Finance, Public Planning and ICT",
-        "Health Services and Public Health",
-        "Education and VocationTraining",
-        "Lands and Physical Planning and Urban Development",
-        "Roads, Public Works, Housing and Energy",
-        "Trade, Co-operatives and Enterprise Development",
-        "Water, Irrigation, Environment and Natural Resources",
-        "Public Service, Administration and Citizen Participation"
+        "Housing and land",
+        "Water and sanitation",
+        "Roads and Transport",
+        "Agriculture and livestock",
+        "Bursery allocations"
       ],
       role: null,
       counties: [],
@@ -354,30 +350,28 @@ const NewOfficial = Form.create({ name: "form_in_modal" })(
               )}{" "}
             </Form.Item>
 
-            {role == "department-official" && (
-              <Form.Item label="Department">
-                {getFieldDecorator("department", {
-                  rules: [
-                    // {
-                    //   type: "email",
-                    //   message: "The input is not valid E-mail!"
-                    // },
-                    {
-                      required: true,
-                      message: "Please select department!"
-                    }
-                  ]
-                })(
-                  <Select
-                    placeholder="Select Department"
-                    style={{ width: "90%" }}
-                    // onChange={this.handleSubCountySelect}
-                  >
-                    {renderDepartments}
-                  </Select>
-                )}
-              </Form.Item>
-            )}
+            <Form.Item label="Department">
+              {getFieldDecorator("department", {
+                rules: [
+                  // {
+                  //   type: "email",
+                  //   message: "The input is not valid E-mail!"
+                  // },
+                  {
+                    required: true,
+                    message: "Please select department!"
+                  }
+                ]
+              })(
+                <Select
+                  placeholder="Select Department"
+                  style={{ width: "90%" }}
+                  // onChange={this.handleSubCountySelect}
+                >
+                  {renderDepartments}
+                </Select>
+              )}
+            </Form.Item>
             {role == "ward-admin" && (
               <Spin tip="Loading wards..." spinning={this.state.loadingWards}>
                 <Form.Item label="Ward">
