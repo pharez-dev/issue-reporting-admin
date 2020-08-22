@@ -13,7 +13,7 @@ import {
   Alert,
   Spin,
   Descriptions,
-  Badge
+  Badge,
 } from "antd";
 import dynamic from "next/dynamic";
 import reqwest from "reqwest";
@@ -29,12 +29,12 @@ const columns = [
     dataIndex: "reportId",
     sorter: true,
     // render: name => `${name.first} ${name.last}`,
-    width: "20%"
+    width: "20%",
   },
   {
     sorter: true,
     title: "Issue Type",
-    dataIndex: "type"
+    dataIndex: "type",
   },
   {
     sorter: true,
@@ -46,37 +46,37 @@ const columns = [
       { text: "In Progress", value: "in progress" },
       { text: "Resolved", value: "resolved" },
       { text: "Escalated", value: "escalated" },
-      { text: "Closed", value: "closed" }
+      { text: "Closed", value: "closed" },
     ],
-    render: stat => (
+    render: (stat) => (
       <b>
         <Capitalize text={stat ? stat : "Pending"} />
       </b>
-    )
+    ),
   },
   {
     sorter: true,
     title: "County",
-    dataIndex: "county"
+    dataIndex: "county",
   },
   {
     sorter: true,
     title: "Sub County",
     dataIndex: "sub_county",
-    render: sub => (sub ? sub : "NA")
+    render: (sub) => (sub ? sub : "NA"),
   },
   {
     title: "Reported On",
     dataIndex: "createdAt",
     sorter: true,
-    render: at => moment(at).format("YYYY-MM-DD")
+    render: (at) => moment(at).format("YYYY-MM-DD"),
   },
   {
     title: "",
     dataIndex: "",
     render: () => <Icon type="select" />,
-    width: "100px"
-  }
+    width: "100px",
+  },
 ];
 
 class App extends React.Component {
@@ -85,7 +85,7 @@ class App extends React.Component {
     pagination: {},
     loading: false,
     filters: [],
-    visible: false
+    visible: false,
   };
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -95,17 +95,17 @@ class App extends React.Component {
       pagination: pager,
       sortField: sorter.field,
       sortOrder: sorter.order,
-      tfilters: filters
+      tfilters: filters,
     });
     this.fetch({
       results: pagination.pageSize,
       page: pagination.current,
       sortField: sorter.field,
       sortOrder: sorter.order,
-      ...filters
+      ...filters,
     });
   };
-  set = value => {
+  set = (value) => {
     const { filters } = this.state;
     if (filters.includes(value)) {
       filters.splice(filters.indexOf(value), 1);
@@ -126,7 +126,7 @@ class App extends React.Component {
       params = {
         ...this.state.tfilters,
         sortField: this.state.sortField,
-        sortOrder: this.state.sortOrder
+        sortOrder: this.state.sortOrder,
       };
     console.log("params:", params);
     this.setState({ loading: true });
@@ -134,16 +134,16 @@ class App extends React.Component {
       reqwest({
         url: `${globals.BASE_URL}/api/issues/all`,
         headers: {
-          Authorization: this.props.token
+          Authorization: this.props.token,
         },
         method: "post",
         data: {
           limit: 10,
           ...params,
-          type: this.state.filters
+          type: this.state.filters,
         },
-        type: "json"
-      }).then(data => {
+        type: "json",
+      }).then((data) => {
         //  console.log("[server data]", data);
         const pagination = { ...this.state.pagination };
         // Read total count from server
@@ -152,7 +152,7 @@ class App extends React.Component {
         this.setState({
           loading: false,
           data: data.issues,
-          pagination
+          pagination,
         });
       });
     } catch (err) {
@@ -168,7 +168,7 @@ class App extends React.Component {
     this.setState({ visible: false });
   };
 
-  saveFormRef = formRef => {
+  saveFormRef = (formRef) => {
     this.formRef = formRef;
   };
 
@@ -274,18 +274,18 @@ class App extends React.Component {
             size="middle"
             onRow={(record, rowIndex) => {
               return {
-                onClick: event => {
+                onClick: (event) => {
                   this.setState({ mdRecord: record._id }), this.showModal();
 
                   // Router.push({
                   //   pathname: "/reports/full",
                   //   query: { record: record._id }
                   // });
-                } // click row
+                }, // click row
               };
             }}
             columns={columns}
-            rowKey={record => record._id}
+            rowKey={(record) => record._id}
             dataSource={this.state.data}
             pagination={this.state.pagination}
             loading={this.state.loading}
@@ -319,7 +319,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import { Tabs, Timeline } from "antd";
 import Responses from "./smComponents/Reponses";
 const DynamicMap = dynamic(() => import("./Map"), {
-  ssr: false
+  ssr: false,
 });
 
 const { TabPane } = Tabs;
@@ -342,15 +342,15 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         "Roads, Public Works, Housing and Energy",
         "Trade, Co-operatives and Enterprise Development",
         "Water, Irrigation, Environment and Natural Resources",
-        "Public Service, Administration and Citizen Participation"
+        "Public Service, Administration and Citizen Participation",
       ],
       radioStatus: [
         "pending", // Before review
         "planned",
         "in progress", //Seen by county official
-        "resolved" // Closed with resolution
+        "resolved", // Closed with resolution
         //  "closed", //
-      ]
+      ],
     };
     handleSubmit = async () => {
       const { form } = this.props;
@@ -367,18 +367,19 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: this.props.token
+                Authorization: this.props.token,
               },
               body: JSON.stringify({
                 record: this.props.record,
                 action: state.selectedAction,
-                ...values
-              })
+                ...values,
+              }),
             }
           );
           let data = await get.json();
 
           if (!data.success) throw new Error(data.message);
+          Message.success(data.message);
           form.resetFields();
           console.log("re fetched:data", data);
           let record = data.issue;
@@ -389,7 +390,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             selectedAction,
             //  reportedBy: data.reportedBy,
             // wards: data.wards,
-            confirmLoading: false
+            confirmLoading: false,
           });
         } catch (err) {
           console.error(err);
@@ -409,9 +410,9 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: this.props.token
+            Authorization: this.props.token,
           },
-          body: JSON.stringify({ record: this.props.record })
+          body: JSON.stringify({ record: this.props.record }),
         });
         let data = await get.json();
         console.log("fetched:data", data);
@@ -423,7 +424,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           selectedAction,
           reportedBy: data.reportedBy,
           wards: data.wards,
-          loading: false
+          loading: false,
         });
       } catch (err) {
         console.error(err);
@@ -432,17 +433,17 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       }
     };
 
-    selectAction = e => {
+    selectAction = (e) => {
       this.setState({ selectedAction: e.target.value });
     };
-    handleSelect = value => {
+    handleSelect = (value) => {
       //console.log(`selected ${value}`);
     };
     componentDidMount = () => {
       this.fetch();
       console.log("mount called");
     };
-    callback = key => {
+    callback = (key) => {
       console.log(key);
       this.setState({ key });
     };
@@ -455,10 +456,10 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             visible={true}
             title="Reported Issue"
             okButtonProps={{
-              disabled: true
+              disabled: true,
             }}
             cancelButtonProps={{
-              disabled: true
+              disabled: true,
             }}
             okText={"Submit"}
             cancelText="Close"
@@ -487,7 +488,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       const { getFieldDecorator } = form;
       const images =
         this.state.data && this.state.data.images.length > 0
-          ? this.state.data.images.map(image => {
+          ? this.state.data.images.map((image) => {
               let image2 = image;
               image = image.replace("/upload/", "/upload/h_400/");
               let thumbnail = image.replace(
@@ -502,7 +503,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
               return {
                 original: image,
                 thumbnail: thumbnail,
-                fullscreen: fullscreen
+                fullscreen: fullscreen,
               };
             })
           : null;
@@ -517,7 +518,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         createdAt,
         response,
         proposedSolution,
-        escalated
+        escalated,
       } = this.state.data;
       const {
         reportedBy,
@@ -525,7 +526,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
         radioStatus,
         wards,
         departments,
-        confirmLoading
+        confirmLoading,
       } = this.state;
       const { fname, lname, email, phoneNumber } = reportedBy;
 
@@ -584,7 +585,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           okText={"Submit"}
           okButtonProps={{
             disabled:
-              this.state.key == 5 && escalated.to.length == 0 ? false : true
+              this.state.key == 5 && escalated.to.length == 0 ? false : true,
           }}
           confirmLoading={confirmLoading}
           cancelText="Close"
@@ -651,7 +652,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
               <div
                 style={{
                   backgroundColor: "#000",
-                  height: "400px"
+                  height: "400px",
                   //  overflow: "hidden"
                 }}
               >
@@ -673,7 +674,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
               style={{
                 "background-color": "#efefef",
                 padding: "10px",
-                "border-radius": "3px"
+                "border-radius": "3px",
               }}
             >
               <Responses responses={response} />
@@ -725,9 +726,9 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                             rules: [
                               {
                                 required: true,
-                                message: "Please select status!"
-                              }
-                            ]
+                                message: "Please select status!",
+                              },
+                            ],
                           })(<Radio.Group>{renderStatus}</Radio.Group>)}
                         </Form.Item>
                       </>
@@ -743,9 +744,9 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                               {
                                 required: true,
                                 message:
-                                  "Please select where to escalate the issue!"
-                              }
-                            ]
+                                  "Please select where to escalate the issue!",
+                              },
+                            ],
                           })(
                             <Select
                               // defaultValue="lucy"
@@ -780,9 +781,9 @@ closing this issue."
                                 // },
                                 {
                                   required: true,
-                                  message: "Please input your reason!"
-                                }
-                              ]
+                                  message: "Please input your reason!",
+                                },
+                              ],
                             })(<TextArea rows={4} />)}
                           </Form.Item>
                         </>
@@ -799,9 +800,9 @@ closing this issue."
                             // },
                             {
                               required: true,
-                              message: "Please input your message!"
-                            }
-                          ]
+                              message: "Please input your message!",
+                            },
+                          ],
                         })(<TextArea rows={4} />)}
                       </Form.Item>
                     )}
