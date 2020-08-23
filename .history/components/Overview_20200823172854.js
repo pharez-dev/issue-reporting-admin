@@ -80,6 +80,21 @@ const series = [
   },
 ];
 
+const Legend = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  .rv-discrete-color-legend {
+    display: inline-block;
+    width: auto !important;
+  }
+  .rv-discrete-color-legend-item {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
+
 const menu = (
   <Menu>
     <Menu.Item>
@@ -112,6 +127,36 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
+
+const data = [
+  {
+    title: "Click through ratio",
+    subtitle: (
+      <span>
+        <span className="mr-1">15%</span>
+        <TrendingUp size={20} strokeWidth={1} className="text-success" />
+      </span>
+    ),
+  },
+  {
+    title: "Cost per thousand",
+    subtitle: (
+      <span>
+        <span className="mr-1">$320.89</span>
+        <TrendingDown size={20} strokeWidth={1} className="text-error" />
+      </span>
+    ),
+  },
+  {
+    title: "Bounce rate",
+    subtitle: (
+      <span>
+        <span className="mr-1">34%</span>
+        <TrendingUp size={20} strokeWidth={1} className="text-success" />
+      </span>
+    ),
+  },
+];
 
 const TimelinePeriod = ({ content }) => (
   <small
@@ -171,18 +216,7 @@ const columns = [
     key: "type",
   },
 ];
-const columnsT = [
-  {
-    title: "County",
-    dataIndex: "_id",
-    key: "_id",
-  },
-  {
-    title: "Number of issues",
-    dataIndex: "total",
-    key: "number",
-  },
-];
+
 const Overview = (props) => {
   let {
     reported,
@@ -386,6 +420,8 @@ const Overview = (props) => {
                     break;
                   case "Health Services and Public Health":
                     color = "red";
+                  default:
+                    color = "grey";
                     break;
                 }
                 return (
@@ -419,15 +455,7 @@ const Overview = (props) => {
             //     />
             //   </Dropdown>
             // }
-          >
-            <Table
-              dataSource={topCounties}
-              bordered
-              size="small"
-              pagination={false}
-              columns={columnsT}
-            ></Table>
-          </Card>
+          ></Card>
         </Col>
       </Row>
       {/* 

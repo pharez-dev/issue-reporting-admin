@@ -55,12 +55,6 @@ class Map extends Component {
               color = "gray";
               break;
           }
-          console.log(
-            each.type,
-            "vs",
-            "Health Services and Public Health",
-            each.type == "Health Services and Public Health"
-          );
           if (each.type.toLowerCase().includes("health")) color = "red";
           return (
             <Marker

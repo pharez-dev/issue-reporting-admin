@@ -171,18 +171,7 @@ const columns = [
     key: "type",
   },
 ];
-const columnsT = [
-  {
-    title: "County",
-    dataIndex: "_id",
-    key: "_id",
-  },
-  {
-    title: "Number of issues",
-    dataIndex: "total",
-    key: "number",
-  },
-];
+
 const Overview = (props) => {
   let {
     reported,
@@ -386,6 +375,8 @@ const Overview = (props) => {
                     break;
                   case "Health Services and Public Health":
                     color = "red";
+                  default:
+                    color = "grey";
                     break;
                 }
                 return (

@@ -386,6 +386,8 @@ const Overview = (props) => {
                     break;
                   case "Health Services and Public Health":
                     color = "red";
+                  default:
+                    color = "grey";
                     break;
                 }
                 return (

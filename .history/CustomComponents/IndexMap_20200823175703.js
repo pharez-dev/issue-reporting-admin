@@ -52,16 +52,10 @@ class Map extends Component {
             case "Health Services and Public Health":
               color = "red";
             case "other":
-              color = "gray";
+              color = "grey";
               break;
           }
-          console.log(
-            each.type,
-            "vs",
-            "Health Services and Public Health",
-            each.type == "Health Services and Public Health"
-          );
-          if (each.type.toLowerCase().includes("health")) color = "red";
+
           return (
             <Marker
               key={i}

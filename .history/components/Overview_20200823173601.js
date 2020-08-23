@@ -179,7 +179,7 @@ const columnsT = [
   },
   {
     title: "Number of issues",
-    dataIndex: "total",
+    dataIndex: "number",
     key: "number",
   },
 ];
@@ -386,6 +386,8 @@ const Overview = (props) => {
                     break;
                   case "Health Services and Public Health":
                     color = "red";
+                  default:
+                    color = "grey";
                     break;
                 }
                 return (

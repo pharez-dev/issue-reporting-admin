@@ -49,7 +49,7 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { theme } from "./styles/GlobalStyles";
 import { MdAdjust } from "react-icons/md";
-import moment from "moment";
+
 const { Option } = Select;
 
 const DynamicMap = dynamic(() => import("../CustomComponents/IndexMap"), {
@@ -79,6 +79,21 @@ const series = [
     data: generate(),
   },
 ];
+
+const Legend = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  .rv-discrete-color-legend {
+    display: inline-block;
+    width: auto !important;
+  }
+  .rv-discrete-color-legend-item {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
 
 const menu = (
   <Menu>
@@ -112,6 +127,36 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
+
+const data = [
+  {
+    title: "Click through ratio",
+    subtitle: (
+      <span>
+        <span className="mr-1">15%</span>
+        <TrendingUp size={20} strokeWidth={1} className="text-success" />
+      </span>
+    ),
+  },
+  {
+    title: "Cost per thousand",
+    subtitle: (
+      <span>
+        <span className="mr-1">$320.89</span>
+        <TrendingDown size={20} strokeWidth={1} className="text-error" />
+      </span>
+    ),
+  },
+  {
+    title: "Bounce rate",
+    subtitle: (
+      <span>
+        <span className="mr-1">34%</span>
+        <TrendingUp size={20} strokeWidth={1} className="text-success" />
+      </span>
+    ),
+  },
+];
 
 const TimelinePeriod = ({ content }) => (
   <small
@@ -171,18 +216,7 @@ const columns = [
     key: "type",
   },
 ];
-const columnsT = [
-  {
-    title: "County",
-    dataIndex: "_id",
-    key: "_id",
-  },
-  {
-    title: "Number of issues",
-    dataIndex: "total",
-    key: "number",
-  },
-];
+
 const Overview = (props) => {
   let {
     reported,
@@ -192,7 +226,6 @@ const Overview = (props) => {
     issues,
     counties,
     latest,
-    topCounties,
   } = props.data;
   const [releod, setR] = useState(false);
   const [county, setCounty] = useState({
@@ -368,65 +401,94 @@ const Overview = (props) => {
               </Dropdown>
             }
           >
-            <Timeline pending="..." className="mt-2">
+            <Timeline pending="Tasks pending..." className="mt-2">
               {latest.map((each) => {
-                let color = "purple";
-                switch (each.type) {
-                  case "Water and sanitation":
-                    color = "blue";
-                    break;
-                  case "Roads and transport":
-                    color = "black";
-                    break;
-                  case "Housing and land":
-                    color = "green";
-                    break;
-                  case "Agriculture and livestock":
-                    color = "yellow";
-                    break;
-                  case "Health Services and Public Health":
-                    color = "red";
-                    break;
-                }
                 return (
-                  <Timeline.Item
-                    key={each._id}
-                    dot={<MdAdjust size={"1.5em"} style={{ color: color }} />}
-                  >
+                  <Timeline.Item>
                     <div className="text-truncate">
-                      <TimelinePeriod
-                        content={moment(each.createdAt).format(
-                          "MMMM Do YYYY, h:mm a"
-                        )}
-                      />
+                      <TimelinePeriod content={each.createdAt} />
                       <span>{each.type}</span>
                     </div>
                   </Timeline.Item>
                 );
               })}
+              <Timeline.Item>
+                <div className="text-truncate">
+                  <TimelinePeriod content="11.20" />
+                  <span>Solve initial network problems</span>
+                </div>
+              </Timeline.Item>
+              <Timeline.Item
+                dot={
+                  <Server size={16} strokeWidth={1} color={theme.errorColor} />
+                }
+              >
+                <div className="text-truncate">
+                  <TimelinePeriod content="13.00" />
+                  <span>Technical testing</span>
+                </div>
+              </Timeline.Item>
             </Timeline>
           </Card>
         </Col>
         <Col sm={24} md={12} className="mb-4">
           <Card
-            title="Counties with most the most reported issues"
-            // extra={
-            //   <Dropdown overlay={menu}>
-            //     <MoreHorizontal
-            //       size={20}
-            //       strokeWidth={1}
-            //       fill={theme.textColor}
-            //     />
-            //   </Dropdown>
-            // }
+            title="Activity"
+            extra={
+              <Dropdown overlay={menu}>
+                <MoreHorizontal
+                  size={20}
+                  strokeWidth={1}
+                  fill={theme.textColor}
+                />
+              </Dropdown>
+            }
           >
-            <Table
-              dataSource={topCounties}
-              bordered
-              size="small"
-              pagination={false}
-              columns={columnsT}
-            ></Table>
+            <Timeline
+              pending={<div className="ml-4">Activities pending...</div>}
+              className="mt-2"
+            >
+              <Timeline.Item
+                dot={<Avatar size={24} src="/static/images/face1.jpg" />}
+              >
+                <div className="ml-4 text-truncate">
+                  <TimelinePeriod content="9.45" />
+                  <span>
+                    <a>John Doe</a> launched a new application
+                  </span>
+                </div>
+              </Timeline.Item>
+              <Timeline.Item
+                dot={<Avatar size={24} src="/static/images/face2.jpg" />}
+              >
+                <div className="ml-4 text-truncate">
+                  <TimelinePeriod content="11.20" />
+                  <span>
+                    <a>Paula Bean</a> Cleared calendar events
+                  </span>
+                </div>
+              </Timeline.Item>
+              <Timeline.Item
+                dot={<Avatar size={24} src="/static/images/face3.jpg" />}
+              >
+                <div className="ml-4 text-truncate">
+                  <TimelinePeriod content="13.00" />
+                  <span>
+                    <a>Peter Hadji</a> Joined your mailing list
+                  </span>
+                </div>
+              </Timeline.Item>
+              <Timeline.Item
+                dot={<Avatar size={24} src="/static/images/face4.jpg" />}
+              >
+                <div className="ml-4 text-truncate">
+                  <TimelinePeriod content="15.00" />
+                  <span>
+                    <a>Trevor Belmont</a> Created a new task list
+                  </span>
+                </div>
+              </Timeline.Item>
+            </Timeline>
           </Card>
         </Col>
       </Row>
