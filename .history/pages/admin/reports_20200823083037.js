@@ -9,7 +9,7 @@ const ReportsPage = (props) => {
   return (
     <>
       <Head>
-        <link rel="stylesheet" href="/static/react-image-lightbox/style.css" />
+        <link rel="stylesheet" href="/static/react-vis.css" />
       </Head>
       <Breadcrumb
         style={{

@@ -299,7 +299,7 @@ const Overview = (props) => {
         className="mb-4"
       >
         <Col sm={24} md={18}>
-          {!releod ? <DynamicMap issues={issues} location={county} /> : null}
+          {!eleod ? <DynamicMap issues={issues} location={county} /> : null}
         </Col>
         <Col sm={24} md={6}>
           <large>Key</large>

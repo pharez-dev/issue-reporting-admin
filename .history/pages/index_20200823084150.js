@@ -7,12 +7,12 @@ import authCheck from "../lib/AuthCheck";
 import Router from "next/router";
 import globals from "../constants/Globals";
 
-const OverviewPage = (props) => (
+const OverviewPage = () => (
   <>
     <Head>
       <link rel="stylesheet" href="/static/react-vis.css" />
     </Head>
-    <Overview {...props} />
+    <Overview />
   </>
 );
 OverviewPage.getInitialProps = async ({ req, res }) => {
@@ -44,22 +44,9 @@ OverviewPage.getInitialProps = async ({ req, res }) => {
     }
     //Dash data
 
-    const response = await fetch(`${globals.BASE_URL}/api/admin/dash_data`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-
-      body: JSON.stringify({}),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      return { data: data };
-    } else {
-      throw new Error(response);
-    }
+    const data = await fetch("https://.../posts");
+    data = await data.json();
+    console.log(data);
   } catch (error) {
     console.log(error);
   }

@@ -186,7 +186,7 @@ const dataSource = [
     type: "Housing and land",
   },
   {
-    key: "2",
+    key: "5",
     symbol: "yellow",
     type: "Agriculture and livestock",
   },
@@ -217,26 +217,21 @@ const columns = [
   },
 ];
 
-const Overview = (props) => {
-  let { reported, resovled, open, users, issues, counties } = props.data;
-  const [releod, setR] = useState(false);
-  const [county, setCounty] = useState({
-    _id: "5e479949214b63123c3b2be9",
-    name: "Nairobi",
-    coords: {
-      lat: -1.2832533,
-      lng: 36.8172449,
-    },
-  });
-  console.log({ props });
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-    setCounty(counties[value]);
-    console.log(county);
-    setR(true);
-    setTimeout(() => setR(false), 100);
-  };
+const handleChange = (value) => {
+  console.log(`selected ${value}`);
+};
+const [count, setCount] = useState({
+  _id: "5e479949214b63123c3b2be9",
+  name: "Nairobi",
+  coords: {
+    lat: -1.2832533,
+    lng: 36.8172449,
+  },
+});
 
+const Overview = (props) => {
+  console.log({ props });
+  let { reported, resovled, open, users, issues, counties } = props.data;
   return (
     <div>
       <Row gutter={16}>
@@ -286,20 +281,21 @@ const Overview = (props) => {
         title="Issue Map"
         extra={
           <Select
-            defaultValue={29}
+            defaultValue="lucy"
             style={{ width: 120 }}
             onChange={handleChange}
           >
-            {counties.map((each, i) => {
-              return <Option value={i}>{each.name}</Option>;
-            })}
+            <Option value="jack">Jack</Option>
           </Select>
         }
         bodyStyle={{ padding: "1rem" }}
         className="mb-4"
       >
         <Col sm={24} md={18}>
-          {!releod ? <DynamicMap issues={issues} location={county} /> : null}
+          <DynamicMap
+            issues={issues}
+            location={issues[0].locationInfo.coords}
+          />
         </Col>
         <Col sm={24} md={6}>
           <large>Key</large>

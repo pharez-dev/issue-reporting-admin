@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Archive,
   Bell,
@@ -29,7 +28,6 @@ import {
   Row,
   Timeline,
   Table,
-  Select,
 } from "antd";
 import {
   DiscreteColorLegend,
@@ -49,8 +47,6 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { theme } from "./styles/GlobalStyles";
 import { MdAdjust } from "react-icons/md";
-
-const { Option } = Select;
 
 const DynamicMap = dynamic(() => import("../CustomComponents/IndexMap"), {
   ssr: false,
@@ -171,35 +167,14 @@ const TimelinePeriod = ({ content }) => (
 const dataSource = [
   {
     key: "1",
-    symbol: "black",
-    type: "Roads and transport",
-  },
+    symbol: "red",
 
-  {
-    key: "3",
-    symbol: "blue",
-    type: "Water  and sanitation",
-  },
-  {
-    key: "4",
-    symbol: "green",
-    type: "Housing and land",
+    age: 32,
   },
   {
     key: "2",
-    symbol: "yellow",
-    type: "Agriculture and livestock",
-  },
-
-  {
-    key: "5",
-    symbol: "red",
-    type: "Health Services and Public Health",
-  },
-  {
-    key: "6",
-    symbol: "gray",
-    type: "Other",
+    name: "John",
+    age: 42,
   },
 ];
 
@@ -208,35 +183,18 @@ const columns = [
     title: "Symbol",
     dataIndex: "symbol",
     key: "symbo",
-    render: (text) => <MdAdjust size={"1.5em"} style={{ color: text }} />,
+    render: (text) => <MdAdjust size={"1.5em"} style={{ color: "red" }} />,
   },
   {
     title: "Issue Type",
-    dataIndex: "type",
-    key: "type",
+    dataIndex: "age",
+    key: "age",
   },
 ];
 
 const Overview = (props) => {
-  let { reported, resovled, open, users, issues, counties } = props.data;
-  const [releod, setR] = useState(false);
-  const [county, setCounty] = useState({
-    _id: "5e479949214b63123c3b2be9",
-    name: "Nairobi",
-    coords: {
-      lat: -1.2832533,
-      lng: 36.8172449,
-    },
-  });
   console.log({ props });
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-    setCounty(counties[value]);
-    console.log(county);
-    setR(true);
-    setTimeout(() => setR(false), 100);
-  };
-
+  let { reported, resovled, open, users, issues } = props.data;
   return (
     <div>
       <Row gutter={16}>
@@ -285,25 +243,22 @@ const Overview = (props) => {
       <Card
         title="Issue Map"
         extra={
-          <Select
-            defaultValue={29}
-            style={{ width: 120 }}
-            onChange={handleChange}
-          >
-            {counties.map((each, i) => {
-              return <Option value={i}>{each.name}</Option>;
-            })}
-          </Select>
+          <Dropdown overlay={menu}>
+            <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
+          </Dropdown>
         }
         bodyStyle={{ padding: "1rem" }}
         className="mb-4"
       >
         <Col sm={24} md={18}>
-          {!releod ? <DynamicMap issues={issues} location={county} /> : null}
+          <DynamicMap
+            issues={issues}
+            location={issues[0].locationInfo.coords}
+          />
         </Col>
         <Col sm={24} md={6}>
           <large>Key</large>
-
+          <MdAdjust size={"1.5em"} style={{ color: "red" }} />
           <Table
             dataSource={dataSource}
             bordered

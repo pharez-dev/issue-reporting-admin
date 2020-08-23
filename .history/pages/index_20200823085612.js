@@ -7,12 +7,12 @@ import authCheck from "../lib/AuthCheck";
 import Router from "next/router";
 import globals from "../constants/Globals";
 
-const OverviewPage = (props) => (
+const OverviewPage = () => (
   <>
     <Head>
       <link rel="stylesheet" href="/static/react-vis.css" />
     </Head>
-    <Overview {...props} />
+    <Overview />
   </>
 );
 OverviewPage.getInitialProps = async ({ req, res }) => {

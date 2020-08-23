@@ -217,9 +217,11 @@ const columns = [
   },
 ];
 
+const handleChange = (value) => {
+  console.log(`selected ${value}`);
+};
+
 const Overview = (props) => {
-  let { reported, resovled, open, users, issues, counties } = props.data;
-  const [releod, setR] = useState(false);
   const [county, setCounty] = useState({
     _id: "5e479949214b63123c3b2be9",
     name: "Nairobi",
@@ -229,14 +231,7 @@ const Overview = (props) => {
     },
   });
   console.log({ props });
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-    setCounty(counties[value]);
-    console.log(county);
-    setR(true);
-    setTimeout(() => setR(false), 100);
-  };
-
+  let { reported, resovled, open, users, issues, counties } = props.data;
   return (
     <div>
       <Row gutter={16}>
@@ -299,7 +294,7 @@ const Overview = (props) => {
         className="mb-4"
       >
         <Col sm={24} md={18}>
-          {!releod ? <DynamicMap issues={issues} location={county} /> : null}
+          <DynamicMap issues={issues} location={county} />
         </Col>
         <Col sm={24} md={6}>
           <large>Key</large>

@@ -7,12 +7,12 @@ import authCheck from "../lib/AuthCheck";
 import Router from "next/router";
 import globals from "../constants/Globals";
 
-const OverviewPage = (props) => (
+const OverviewPage = () => (
   <>
     <Head>
       <link rel="stylesheet" href="/static/react-vis.css" />
     </Head>
-    <Overview {...props} />
+    <Overview />
   </>
 );
 OverviewPage.getInitialProps = async ({ req, res }) => {
@@ -51,15 +51,15 @@ OverviewPage.getInitialProps = async ({ req, res }) => {
         Authorization: token,
       },
 
-      body: JSON.stringify({}),
+      body: JSON.stringify(values),
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       return { data: data };
     } else {
       throw new Error(response);
     }
+    console.log(data);
   } catch (error) {
     console.log(error);
   }

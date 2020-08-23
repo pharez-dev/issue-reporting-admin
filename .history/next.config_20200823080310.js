@@ -23,4 +23,4 @@ const withLess = require("@zeit/next-less"),
     webpack: (config) => config,
   };
 
-module.exports = withPlugins([withLess, withCSS, withSass], nextConfig);
+module.exports = withPlugins([withLess], nextConfig);

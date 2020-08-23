@@ -12,7 +12,7 @@ const OverviewPage = (props) => (
     <Head>
       <link rel="stylesheet" href="/static/react-vis.css" />
     </Head>
-    <Overview {...props} />
+    <Overview {..props} />
   </>
 );
 OverviewPage.getInitialProps = async ({ req, res }) => {
