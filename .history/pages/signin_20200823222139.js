@@ -24,7 +24,7 @@ SigninPage.getInitialProps = async ({ req, res }) => {
     if (req) {
       // If `ctx.req` is available it means we are on the server.
       res.writeHead(302, { Location: "/" });
-      res.end();
+      return res.end();
     } else {
       // This should only happen on client.
       Router.push("/");

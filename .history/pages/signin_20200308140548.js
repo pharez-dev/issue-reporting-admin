@@ -7,7 +7,7 @@ import authCheck from "../lib/AuthCheck";
 import Router from "next/router";
 // set up cookies
 const cookies = new Cookies();
-const SigninPage = (props) => <Signin {...props} />;
+const SigninPage = props => <Signin {...props} />;
 
 SigninPage.getInitialProps = async ({ req, res }) => {
   // console.log("GETTING INITIAL PROPS");

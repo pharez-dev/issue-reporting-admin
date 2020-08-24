@@ -315,7 +315,7 @@ const Notification = ({ form, data, token }) => {
 
                             read(item._id);
                             Router.push(
-                              base + "/reports?open_record=" + item.doc._id
+                              base + "/reports/open_record= " + item.doc._id
                             );
                           }}
                           avatar={
@@ -331,7 +331,11 @@ const Notification = ({ form, data, token }) => {
                               <MessageCircle size={24} strokeWidth={1} />
                             </Avatar>
                           }
-                          title={<b>{item.title}</b>}
+                          title={
+                            <b>
+                              <a href="#">{item.title}</a>
+                            </b>
+                          }
                           description={
                             <div
                               css={`

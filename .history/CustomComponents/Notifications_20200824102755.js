@@ -27,10 +27,8 @@ import { useState } from "react";
 import { MessageCircle } from "react-feather";
 import Router from "next/router";
 import moment from "moment";
+import Column from "../components/shared/taskboard/Column";
 
-import { Cookies } from "react-cookie";
-import jwt_decode from "jwt-decode";
-const cookies = new Cookies();
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -75,10 +73,7 @@ const tailFormItemLayout = {
 
 const Notification = ({ form, data, token }) => {
   console.log("[notification prop]", data);
-  let Utoken = cookies.get("token");
-  let user;
-  if (Utoken) user = jwt_decode(token);
-  console.log(user);
+
   const [state] = useAppState();
   const [activeTab, setActiveTab] = useState("1");
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
@@ -124,7 +119,45 @@ const Notification = ({ form, data, token }) => {
       // this.setState({ loading: false });
     }
   };
+  const columns = {
+    "In Process": [
+      {
+        title: "QOS Assessment",
+        description:
+          "Maecenas sed diam eget risus varius blandit sit amet non magna.",
+      },
+      {
+        title: "Schedule new tasks",
+        description: "Sed posuere consectetur est at lobortis.",
+        color: "warning",
+      },
+      {
+        title: "Add dashboard variants",
+        description: "Nulla vitae elit libero, a pharetra augue.",
+      },
+      {
+        title: "Extended color scheme support",
+        description:
+          "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
+      },
+      {
+        title: "Merge unit tests",
+        description:
+          "Maecenas sed diam eget risus varius blandit sit amet non magna.",
+        color: "info",
 
+        images: [
+          "/static/images/unsplash/16.jpg",
+          "/static/images/unsplash/9.jpg",
+        ],
+      },
+      {
+        title: "Test final version",
+        description:
+          "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      },
+    ],
+  };
   return (
     <div>
       <Col md={18} sm={24}>
@@ -294,29 +327,18 @@ const Notification = ({ form, data, token }) => {
                     bodyStyle={{ padding: 10 }}
                     style={{
                       backgroundColor: "#f1f1f1",
+                      "&:hover": {
+                        backgroundColor: "white",
+                      },
                     }}
-                    // css={`
-                    //   hover: {
-                    //     backgroundcolor: red;
-                    //   }
-                    // `}
                     className="mb-4"
                   >
                     <a href="#">
                       <List.Item>
                         <List.Item.Meta
                           onClick={() => {
-                            let base;
-                            if (user.role == "admin") base = "/admin";
-                            else if (user.role == "subcounty admin")
-                              base = "/subcounty_admin";
-                            else if (user.role == "ward admin")
-                              base = "/ward_admin";
-
                             read(item._id);
-                            Router.push(
-                              base + "/reports?open_record=" + item.doc._id
-                            );
+                            Router.push("/reports/full?record=" + item.doc._id);
                           }}
                           avatar={
                             <Avatar
@@ -331,7 +353,7 @@ const Notification = ({ form, data, token }) => {
                               <MessageCircle size={24} strokeWidth={1} />
                             </Avatar>
                           }
-                          title={<b>{item.title}</b>}
+                          title={<b>{item.title} </b>}
                           description={
                             <div
                               css={`

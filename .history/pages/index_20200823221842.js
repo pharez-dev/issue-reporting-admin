@@ -22,11 +22,12 @@ OverviewPage.getInitialProps = async ({ req, res }) => {
       if (req) {
         // If `ctx.req` is available it means we are on the server.
         res.writeHead(302, { Location: "/signin" });
-        return res.end();
+        res.end();
       } else {
         // This should only happen on client.
         Router.push("/signin");
       }
+      return;
     }
     //CHECK IF JWT IS VALID
     const isValid = await authCheck(token);
@@ -36,7 +37,7 @@ OverviewPage.getInitialProps = async ({ req, res }) => {
       if (req) {
         // If `ctx.req` is available it means we are on the server.
         res.writeHead(302, { Location: "/signin" });
-        return res.end();
+        res.end();
       } else {
         // This should only happen on client.
         Router.push("/signin");

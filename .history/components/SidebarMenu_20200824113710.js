@@ -69,8 +69,6 @@ const SidebarContent = ({
         ? adminRoutes
         : user.role == "sub-county-admin"
         ? subCountyAdminRoutes
-        : user.role == "ward-admin"
-        ? wardAdminRoutes
         : Routes
       : Routes
   );

@@ -156,10 +156,8 @@ class App extends React.Component {
           loading: false,
           data: data.issues,
           pagination,
-          visible: this.props.query.open_record ? true : false,
-          mdRecord: this.props.query.open_record
-            ? this.props.query.open_record
-            : null,
+          visible: true,
+          mdRecord: this.props.query.open_record,
         });
       });
     } catch (err) {
@@ -338,7 +336,6 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
     state = {
       loading: true,
-      user: null,
       data: null,
       key: 1,
       selectedAction: "respond",
@@ -454,7 +451,6 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       let token = cookies.get("token");
       let user;
       if (token) user = jwt_decode(token);
-      this.setState({ user });
     };
     callback = (key) => {
       console.log(key);
@@ -563,7 +559,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       });
       const renderStatus = radioStatus.map((each, i) => {
         if (status !== each) {
-          if (status == "pending" || "escalated") {
+          if (status == "pending") {
             return (
               <Radio.Button key={i + "status"} value={each}>
                 <Capitalize text={each} />
@@ -694,8 +690,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             </TabPane>
             {status !== "closed" && (
               <TabPane tab="Actions" key="5">
-                {escalated.to.length > 0 &&
-                this.state.user.ward !== escalated.to[0] ? (
+                {escalated.to.length > 0 ? (
                   escalated.bool && (
                     <div
                       css={`
@@ -724,11 +719,9 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                             <Radio.Button value={"respond"}>
                               Update status
                             </Radio.Button>
-                            {escalated.to.length > 0 ? null : (
-                              <Radio.Button value={"escalate"}>
-                                Escalate Issue
-                              </Radio.Button>
-                            )}
+                            <Radio.Button value={"escalate"}>
+                              Escalate Issue
+                            </Radio.Button>
                           </>
                         )}
                         <Radio.Button value={"close"}>Close Issue</Radio.Button>

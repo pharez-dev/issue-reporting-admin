@@ -27,10 +27,8 @@ import { useState } from "react";
 import { MessageCircle } from "react-feather";
 import Router from "next/router";
 import moment from "moment";
+import Column from "../components/shared/taskboard/Column";
 
-import { Cookies } from "react-cookie";
-import jwt_decode from "jwt-decode";
-const cookies = new Cookies();
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -76,9 +74,9 @@ const tailFormItemLayout = {
 const Notification = ({ form, data, token }) => {
   console.log("[notification prop]", data);
   let Utoken = cookies.get("token");
-  let user;
+  let user = global.user;
   if (Utoken) user = jwt_decode(token);
-  console.log(user);
+  alert(user);
   const [state] = useAppState();
   const [activeTab, setActiveTab] = useState("1");
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
@@ -315,7 +313,7 @@ const Notification = ({ form, data, token }) => {
 
                             read(item._id);
                             Router.push(
-                              base + "/reports?open_record=" + item.doc._id
+                              base + "/reports/open_record= " + item.doc._id
                             );
                           }}
                           avatar={
@@ -331,7 +329,11 @@ const Notification = ({ form, data, token }) => {
                               <MessageCircle size={24} strokeWidth={1} />
                             </Avatar>
                           }
-                          title={<b>{item.title}</b>}
+                          title={
+                            <b>
+                              <a href="#">{item.title}</a>
+                            </b>
+                          }
                           description={
                             <div
                               css={`

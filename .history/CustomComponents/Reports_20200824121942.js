@@ -563,7 +563,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       });
       const renderStatus = radioStatus.map((each, i) => {
         if (status !== each) {
-          if (status == "pending" || "escalated") {
+          if (status == "pending") {
             return (
               <Radio.Button key={i + "status"} value={each}>
                 <Capitalize text={each} />

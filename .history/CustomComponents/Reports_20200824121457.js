@@ -563,7 +563,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       });
       const renderStatus = radioStatus.map((each, i) => {
         if (status !== each) {
-          if (status == "pending" || "escalated") {
+          if (status == "pending") {
             return (
               <Radio.Button key={i + "status"} value={each}>
                 <Capitalize text={each} />
@@ -694,8 +694,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             </TabPane>
             {status !== "closed" && (
               <TabPane tab="Actions" key="5">
-                {escalated.to.length > 0 &&
-                this.state.user.ward !== escalated.to[0] ? (
+                {escalated.to.length > 0 ? (
                   escalated.bool && (
                     <div
                       css={`
@@ -724,11 +723,9 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                             <Radio.Button value={"respond"}>
                               Update status
                             </Radio.Button>
-                            {escalated.to.length > 0 ? null : (
-                              <Radio.Button value={"escalate"}>
-                                Escalate Issue
-                              </Radio.Button>
-                            )}
+                            <Radio.Button value={"escalate"}>
+                              Escalate Issue
+                            </Radio.Button>
                           </>
                         )}
                         <Radio.Button value={"close"}>Close Issue</Radio.Button>

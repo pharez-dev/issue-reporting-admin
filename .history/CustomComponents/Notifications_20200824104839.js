@@ -78,7 +78,7 @@ const Notification = ({ form, data, token }) => {
   let Utoken = cookies.get("token");
   let user;
   if (Utoken) user = jwt_decode(token);
-  console.log(user);
+  alert(user);
   const [state] = useAppState();
   const [activeTab, setActiveTab] = useState("1");
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
@@ -315,7 +315,7 @@ const Notification = ({ form, data, token }) => {
 
                             read(item._id);
                             Router.push(
-                              base + "/reports?open_record=" + item.doc._id
+                              base + "/reports/open_record= " + item.doc._id
                             );
                           }}
                           avatar={
@@ -331,7 +331,11 @@ const Notification = ({ form, data, token }) => {
                               <MessageCircle size={24} strokeWidth={1} />
                             </Avatar>
                           }
-                          title={<b>{item.title}</b>}
+                          title={
+                            <b>
+                              <a href="#">{item.title}</a>
+                            </b>
+                          }
                           description={
                             <div
                               css={`

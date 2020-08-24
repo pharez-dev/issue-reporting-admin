@@ -27,10 +27,8 @@ import { useState } from "react";
 import { MessageCircle } from "react-feather";
 import Router from "next/router";
 import moment from "moment";
+import Column from "../components/shared/taskboard/Column";
 
-import { Cookies } from "react-cookie";
-import jwt_decode from "jwt-decode";
-const cookies = new Cookies();
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -75,10 +73,7 @@ const tailFormItemLayout = {
 
 const Notification = ({ form, data, token }) => {
   console.log("[notification prop]", data);
-  let Utoken = cookies.get("token");
-  let user;
-  if (Utoken) user = jwt_decode(token);
-  console.log(user);
+
   const [state] = useAppState();
   const [activeTab, setActiveTab] = useState("1");
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
@@ -124,7 +119,45 @@ const Notification = ({ form, data, token }) => {
       // this.setState({ loading: false });
     }
   };
+  const tasks = {
+    "In Process": [
+      {
+        title: "QOS Assessment",
+        description:
+          "Maecenas sed diam eget risus varius blandit sit amet non magna.",
+      },
+      {
+        title: "Schedule new tasks",
+        description: "Sed posuere consectetur est at lobortis.",
+        color: "warning",
+      },
+      {
+        title: "Add dashboard variants",
+        description: "Nulla vitae elit libero, a pharetra augue.",
+      },
+      {
+        title: "Extended color scheme support",
+        description:
+          "Morbi leo risus, porta ac consectetur ac, vestibulum at eros.",
+      },
+      {
+        title: "Merge unit tests",
+        description:
+          "Maecenas sed diam eget risus varius blandit sit amet non magna.",
+        color: "info",
 
+        images: [
+          "/static/images/unsplash/16.jpg",
+          "/static/images/unsplash/9.jpg",
+        ],
+      },
+      {
+        title: "Test final version",
+        description:
+          "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      },
+    ],
+  };
   return (
     <div>
       <Col md={18} sm={24}>
@@ -181,7 +214,9 @@ const Notification = ({ form, data, token }) => {
           </Menu>
         </Card>
       </Col>
-      <Col md={24}></Col>
+      <Col md={24}>
+        <Column key={"j"} index={index} title={"j"} tasks={columns["j"]} />
+      </Col>
       <Row type="flex" gutter={16}>
         {/* <Col
           xl={8}
@@ -191,7 +226,7 @@ const Notification = ({ form, data, token }) => {
           xs={24}
           order={state.mobile ? 1 : 2}
         >
-       
+          <Card bodyStyle={{ padding: 0 }} className="mb-4">
             <div className="px-4 pt-4">
               <Row type="flex" align="top" justify="space-between">
                 <Col>
@@ -290,101 +325,77 @@ const Notification = ({ form, data, token }) => {
                 itemLayout="horizontal"
                 dataSource={data}
                 renderItem={(item) => (
-                  <Card
-                    bodyStyle={{ padding: 10 }}
-                    style={{
-                      backgroundColor: "#f1f1f1",
-                    }}
-                    // css={`
-                    //   hover: {
-                    //     backgroundcolor: red;
-                    //   }
-                    // `}
-                    className="mb-4"
-                  >
-                    <a href="#">
-                      <List.Item>
-                        <List.Item.Meta
-                          onClick={() => {
-                            let base;
-                            if (user.role == "admin") base = "/admin";
-                            else if (user.role == "subcounty admin")
-                              base = "/subcounty_admin";
-                            else if (user.role == "ward admin")
-                              base = "/ward_admin";
-
-                            read(item._id);
-                            Router.push(
-                              base + "/reports?open_record=" + item.doc._id
-                            );
-                          }}
-                          avatar={
-                            <Avatar
-                              size="large"
-                              style={{
-                                color: item.opened ? "grey" : "rgb(34, 245, 0)",
-                                backgroundColor: item.opened
-                                  ? "#efefef"
-                                  : "rgb(207, 253, 219)",
-                              }}
-                            >
-                              <MessageCircle size={24} strokeWidth={1} />
-                            </Avatar>
-                          }
-                          title={<b>{item.title}</b>}
-                          description={
+                  <a href="#">
+                    <List.Item>
+                      <List.Item.Meta
+                        onClick={() => {
+                          read(item._id);
+                          Router.push("/reports/full?record=" + item.doc._id);
+                        }}
+                        avatar={
+                          <Avatar
+                            size="large"
+                            style={{
+                              color: item.opened ? "grey" : "rgb(34, 245, 0)",
+                              backgroundColor: item.opened
+                                ? "#efefef"
+                                : "rgb(207, 253, 219)",
+                            }}
+                          >
+                            <MessageCircle size={24} strokeWidth={1} />
+                          </Avatar>
+                        }
+                        title={<b>{item.title} </b>}
+                        description={
+                          <div
+                            css={`
+                              color: black;
+                            `}
+                          >
                             <div
                               css={`
                                 color: black;
+                                display: flex;
+                                flex-direction: row;
                               `}
                             >
-                              <div
+                              <b
                                 css={`
-                                  color: black;
-                                  display: flex;
-                                  flex-direction: row;
+                                  margin-right: 5px;
                                 `}
                               >
-                                <b
-                                  css={`
-                                    margin-right: 5px;
-                                  `}
-                                >
-                                  Type:
-                                </b>
-                                <p>{item.doc.type}.</p>
-                              </div>
-                              <div
-                                css={`
-                                  display: flex;
-                                  flex-direction: row;
-                                `}
-                              >
-                                <b
-                                  css={`
-                                    margin-right: 5px;
-                                  `}
-                                >
-                                  Description:
-                                </b>
-                                <p>{item.body}</p>
-                              </div>
-                              <div
-                                style={{
-                                  float: "right",
-                                  marginTop: "-40px",
-                                }}
-                              >
-                                <small>
-                                  {moment(item.createdAt).fromNow()}
-                                </small>
-                              </div>
+                                Type:
+                              </b>
+                              <p>{item.doc.type}.</p>
                             </div>
-                          }
-                        />
-                      </List.Item>
-                    </a>
-                  </Card>
+                            <div
+                              css={`
+                                display: flex;
+                                flex-direction: row;
+                              `}
+                            >
+                              <b
+                                css={`
+                                  margin-right: 5px;
+                                `}
+                              >
+                                Description:
+                              </b>
+                              <p>{item.body}</p>
+                            </div>
+                            <div
+                              style={{
+                                float: "right",
+                                marginTop: "-40px",
+                              }}
+                            >
+                              <small>{moment(item.createdAt).fromNow()}</small>
+                            </div>
+                          </div>
+                        }
+                      />
+                    </List.Item>
+                  </a>
                 )}
               />
               {/* <Timeline className="p-3">

@@ -22,26 +22,27 @@ OverviewPage.getInitialProps = async ({ req, res }) => {
       if (req) {
         // If `ctx.req` is available it means we are on the server.
         res.writeHead(302, { Location: "/signin" });
-        return res.end();
+        res.end();
       } else {
         // This should only happen on client.
         Router.push("/signin");
       }
+      return;
     }
     //CHECK IF JWT IS VALID
     const isValid = await authCheck(token);
 
-    console.log("token", token, "index props");
-    if (!isValid) {
-      if (req) {
-        // If `ctx.req` is available it means we are on the server.
-        res.writeHead(302, { Location: "/signin" });
-        return res.end();
-      } else {
-        // This should only happen on client.
-        Router.push("/signin");
-      }
-    }
+    // console.log("token", token, "index props");
+    // if (!isValid) {
+    //   if (req) {
+    //     // If `ctx.req` is available it means we are on the server.
+    //     res.writeHead(302, { Location: "/signin" });
+    //     res.end();
+    //   } else {
+    //     // This should only happen on client.
+    //     Router.push("/signin");
+    //   }
+    // }
     //Dash data
 
     const response = await fetch(`${globals.BASE_URL}/api/admin/dash_data`, {

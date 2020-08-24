@@ -23,9 +23,6 @@ import Router from "next/router";
 import fetch from "isomorphic-unfetch";
 import Capitalized from "../lib/Capitalize";
 import Capitalize from "../lib/Capitalize";
-import { Cookies } from "react-cookie";
-import jwt_decode from "jwt-decode";
-const cookies = new Cookies();
 const columns = [
   {
     title: "Report ID",
@@ -156,10 +153,6 @@ class App extends React.Component {
           loading: false,
           data: data.issues,
           pagination,
-          visible: this.props.query.open_record ? true : false,
-          mdRecord: this.props.query.open_record
-            ? this.props.query.open_record
-            : null,
         });
       });
     } catch (err) {
@@ -181,7 +174,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.fetch();
-    console.log("[received Params]", this.props.query.open_record);
+    console.log("[received Params]", this.props.router.query);
   }
 
   render() {
@@ -338,7 +331,6 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
     state = {
       loading: true,
-      user: null,
       data: null,
       key: 1,
       selectedAction: "respond",
@@ -450,11 +442,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
     };
     componentDidMount = () => {
       this.fetch();
-      // parseToken
-      let token = cookies.get("token");
-      let user;
-      if (token) user = jwt_decode(token);
-      this.setState({ user });
+      console.log("mount called");
     };
     callback = (key) => {
       console.log(key);
@@ -563,7 +551,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       });
       const renderStatus = radioStatus.map((each, i) => {
         if (status !== each) {
-          if (status == "pending" || "escalated") {
+          if (status == "pending") {
             return (
               <Radio.Button key={i + "status"} value={each}>
                 <Capitalize text={each} />
@@ -694,8 +682,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             </TabPane>
             {status !== "closed" && (
               <TabPane tab="Actions" key="5">
-                {escalated.to.length > 0 &&
-                this.state.user.ward !== escalated.to[0] ? (
+                {escalated.to.length > 0 ? (
                   escalated.bool && (
                     <div
                       css={`
@@ -724,11 +711,9 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                             <Radio.Button value={"respond"}>
                               Update status
                             </Radio.Button>
-                            {escalated.to.length > 0 ? null : (
-                              <Radio.Button value={"escalate"}>
-                                Escalate Issue
-                              </Radio.Button>
-                            )}
+                            <Radio.Button value={"escalate"}>
+                              Escalate Issue
+                            </Radio.Button>
                           </>
                         )}
                         <Radio.Button value={"close"}>Close Issue</Radio.Button>

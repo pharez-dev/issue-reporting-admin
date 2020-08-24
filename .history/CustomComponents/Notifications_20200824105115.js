@@ -315,7 +315,7 @@ const Notification = ({ form, data, token }) => {
 
                             read(item._id);
                             Router.push(
-                              base + "/reports?open_record=" + item.doc._id
+                              base + "/reports?open_record= " + item.doc._id
                             );
                           }}
                           avatar={
