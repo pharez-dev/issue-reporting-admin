@@ -598,9 +598,10 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           okText={"Submit"}
           okButtonProps={{
             disabled:
-              (this.state.key == 5 && escalated.to.length == 0) ||
-              this.state.user.ward == escalated.to[0] ||
-              this.state.user.department == escalated.to[0]
+              this.state.key == 5 &&
+              escalated.to.length == 0 &&
+              this.state.user.ward !== escalated.to[0] &&
+              this.state.user.department !== escalated.to[0]
                 ? false
                 : true,
           }}

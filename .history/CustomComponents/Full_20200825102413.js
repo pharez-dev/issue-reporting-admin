@@ -152,7 +152,10 @@ class Full extends React.Component {
       createdAt,
       response,
     } = data;
-
+    let aImages = images.map((image) => {
+      image = image.replace("/upload/", "/upload/h_720,q_auto,f_auto/");
+      return image;
+    });
     console.log("[data from initial props]", data);
 
     const { fname, lname, email, phoneNumber } = reportedBy;

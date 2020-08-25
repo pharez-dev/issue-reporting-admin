@@ -556,7 +556,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
       });
       const renderWards = wards.map((each, i) => {
         return (
-          <Option key={i + each.name} value={"(W)" + each.name}>
+          <Option key={i + each.name} value={each.name}>
             {each.name}
           </Option>
         );
@@ -598,11 +598,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           okText={"Submit"}
           okButtonProps={{
             disabled:
-              (this.state.key == 5 && escalated.to.length == 0) ||
-              this.state.user.ward == escalated.to[0] ||
-              this.state.user.department == escalated.to[0]
-                ? false
-                : true,
+              this.state.key == 5 && escalated.to.length == 0 ? false : true,
           }}
           confirmLoading={confirmLoading}
           cancelText="Close"
@@ -699,8 +695,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
             {status !== "closed" && (
               <TabPane tab="Actions" key="5">
                 {escalated.to.length > 0 &&
-                this.state.user.ward !== escalated.to[0] &&
-                this.state.user.department !== escalated.to[0] ? (
+                this.state.user.ward !== escalated.to[0] ? (
                   escalated.bool && (
                     <div
                       css={`
