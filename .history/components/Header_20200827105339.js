@@ -181,12 +181,8 @@ const MainHeader = ({ global, router }) => {
         <Link href="/">
           <a className="brand">
             <strong className="mx-1 text-black">
-              {user ? (
-                <span style={{ textTransform: "capitalize" }}>
-                  {user.role == "admin" ? "Sub-County-Admin" : user.role} -{" "}
-                </span>
-              ) : null}
-              Real Time County Issue Reporting System
+              <span style={{ textTransform: "capitalize" }}> {user.role} </span>{" "}
+              Real Time County Issue-Reporting System
             </strong>
           </a>
         </Link>

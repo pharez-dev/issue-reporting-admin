@@ -180,13 +180,9 @@ const MainHeader = ({ global, router }) => {
         )}
         <Link href="/">
           <a className="brand">
+            <Triangle size={24} strokeWidth={1} />
             <strong className="mx-1 text-black">
-              {user ? (
-                <span style={{ textTransform: "capitalize" }}>
-                  {user.role == "admin" ? "Sub-County-Admin" : user.role} -{" "}
-                </span>
-              ) : null}
-              Real Time County Issue Reporting System
+              Real Time County Issue-Reporting System
             </strong>
           </a>
         </Link>
@@ -313,13 +309,7 @@ const MainHeader = ({ global, router }) => {
           >
             {/* <Menu.Item>Settings</Menu.Item>
             <Menu.Item>Profile</Menu.Item> */}
-            <Menu.Item
-              onClick={() => {
-                Router.push("/notifications");
-              }}
-            >
-              Notifications
-            </Menu.Item>
+            <Menu.Item>Notifications</Menu.Item>
             <Menu.Divider />
             {/* <Menu.Item>
               <Link href="https://one-readme.fusepx.com">
