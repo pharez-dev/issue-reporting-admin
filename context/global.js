@@ -13,16 +13,16 @@ export class GlobalContextProvider extends React.Component {
 
     user: null,
 
-    token: null
+    token: null,
   };
 
-  signIn = token => {
+  signIn = (token) => {
     cookies.set("token", token);
     const user = jwt_decode(token);
     this.setState(
       {
         user,
-        token
+        token,
       }
       // ,
       // () => {
@@ -32,9 +32,12 @@ export class GlobalContextProvider extends React.Component {
   };
 
   signOut = () => {
-    cookies.remove("token");
-    this.setState({
-      user: null
+    return new Promise((resolve) => {
+      cookies.remove("token");
+      this.setState({
+        user: null,
+      });
+      resolve();
     });
     // Router.push("/signin");
   };
@@ -48,7 +51,7 @@ export class GlobalContextProvider extends React.Component {
         {
           user,
           token,
-          isLoadingState: false
+          isLoadingState: false,
         }
         // () => {
         //   Router.push("/");
@@ -56,7 +59,7 @@ export class GlobalContextProvider extends React.Component {
       );
     } else {
       this.setState({
-        isLoadingState: false
+        isLoadingState: false,
       });
     }
   };
@@ -70,7 +73,7 @@ export class GlobalContextProvider extends React.Component {
           ...this.state,
 
           signIn: this.signIn,
-          signOut: this.signOut
+          signOut: this.signOut,
         }}
       >
         {this.props.children}
@@ -80,8 +83,8 @@ export class GlobalContextProvider extends React.Component {
 }
 
 // create the consumer as higher order component
-export const withGlobalContext = ChildComponent => props => (
+export const withGlobalContext = (ChildComponent) => (props) => (
   <GlobalContext.Consumer>
-    {context => <ChildComponent {...props} global={context} />}
+    {(context) => <ChildComponent {...props} global={context} />}
   </GlobalContext.Consumer>
 );

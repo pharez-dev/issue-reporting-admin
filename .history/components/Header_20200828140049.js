@@ -88,7 +88,6 @@ const MainHeader = ({ global, router }) => {
               <MessageCircle size={24} strokeWidth={1} />
             </Avatar>
           );
-          return e;
         });
 
         // newNote.push(data);
@@ -350,7 +349,8 @@ const MainHeader = ({ global, router }) => {
             </Menu.Item> */}
             <Menu.Item
               onClick={() => {
-                global.signOut().then(() => router.push("/signin"));
+                global.signOut();
+                router.push("/signin");
               }}
             >
               Signout

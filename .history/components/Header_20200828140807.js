@@ -350,7 +350,8 @@ const MainHeader = ({ global, router }) => {
             </Menu.Item> */}
             <Menu.Item
               onClick={() => {
-                global.signOut().then(() => router.push("/signin"));
+                global.signOut().then(()=>router.push("/signin");)
+                
               }}
             >
               Signout

@@ -323,10 +323,10 @@ const Notification = ({ form, data, token }) => {
                             <Avatar
                               size="large"
                               style={{
-                                color: item.opened ? "grey" : "white",
+                                color: item.opened ? "grey" : "rgb(34, 245, 0)",
                                 backgroundColor: item.opened
                                   ? "#efefef"
-                                  : "#008000",
+                                  : "rgb(207, 253, 219)",
                               }}
                             >
                               <MessageCircle size={24} strokeWidth={1} />

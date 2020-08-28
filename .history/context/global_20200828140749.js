@@ -3,6 +3,7 @@ import React from "react";
 //import globals from "../constants/Globals";
 import jwt_decode from "jwt-decode";
 import { Cookies } from "react-cookie";
+
 const GlobalContext = React.createContext({});
 // set up cookies
 const cookies = new Cookies();
@@ -12,16 +13,16 @@ export class GlobalContextProvider extends React.Component {
 
     user: null,
 
-    token: null
+    token: null,
   };
 
-  signIn = token => {
+  signIn = (token) => {
     cookies.set("token", token);
     const user = jwt_decode(token);
     this.setState(
       {
         user,
-        token
+        token,
       }
       // ,
       // () => {
@@ -31,24 +32,36 @@ export class GlobalContextProvider extends React.Component {
   };
 
   signOut = () => {
-    cookies.remove("token");
-    this.setState({
-      user: null
+    return new Promise((resolve) => {
+      cookies.remove("token");
+      this.setState({
+        user: null,
+      });
+      resolve();
     });
     // Router.push("/signin");
   };
   fetchToken = () => {
-    const user = jwt_decode(token);
-    this.setState(
-      {
-        user,
-        token
-      }
-      // ,
-      // () => {
-      //   Router.push("/");
-      // }
-    );
+    let token = cookies.get("token");
+
+    if (token) {
+      // console.log("{Token exists}", token);
+      const user = jwt_decode(token);
+      this.setState(
+        {
+          user,
+          token,
+          isLoadingState: false,
+        }
+        // () => {
+        //   Router.push("/");
+        // }
+      );
+    } else {
+      this.setState({
+        isLoadingState: false,
+      });
+    }
   };
   componentDidMount = () => {
     this.fetchToken();
@@ -60,7 +73,7 @@ export class GlobalContextProvider extends React.Component {
           ...this.state,
 
           signIn: this.signIn,
-          signOut: this.signOut
+          signOut: this.signOut,
         }}
       >
         {this.props.children}
@@ -70,8 +83,8 @@ export class GlobalContextProvider extends React.Component {
 }
 
 // create the consumer as higher order component
-export const withGlobalContext = ChildComponent => props => (
+export const withGlobalContext = (ChildComponent) => (props) => (
   <GlobalContext.Consumer>
-    {context => <ChildComponent {...props} global={context} />}
+    {(context) => <ChildComponent {...props} global={context} />}
   </GlobalContext.Consumer>
 );

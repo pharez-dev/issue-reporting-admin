@@ -326,7 +326,7 @@ const Notification = ({ form, data, token }) => {
                                 color: item.opened ? "grey" : "white",
                                 backgroundColor: item.opened
                                   ? "#efefef"
-                                  : "#008000",
+                                  : "rgb(207, 253, 219)",
                               }}
                             >
                               <MessageCircle size={24} strokeWidth={1} />

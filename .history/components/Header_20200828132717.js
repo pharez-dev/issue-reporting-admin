@@ -75,21 +75,19 @@ const MainHeader = ({ global, router }) => {
         setNotificatons((notifications) => [...notifications, data]);
       });
       socket.on("replace-notifications", (data) => {
-        //alert("replace");
-        data = data.map((e) => {
-          e.avatar = (
-            <Avatar
-              size="large"
-              style={{
-                color: "rgb(34, 245, 0)",
-                backgroundColor: "rgb(207, 253, 219)",
-              }}
-            >
-              <MessageCircle size={24} strokeWidth={1} />
-            </Avatar>
-          );
-          return e;
-        });
+        alert("replace");
+        data.avatar = (
+          <Avatar
+            size="large"
+            style={{
+              color: "rgb(34, 245, 0)",
+              backgroundColor: "rgb(207, 253, 219)",
+            }}
+          >
+            <MessageCircle size={24} strokeWidth={1} />
+          </Avatar>
+        );
+        let newNote = Array.from(notifications);
 
         // newNote.push(data);
         // console.log(newNote);
@@ -350,7 +348,8 @@ const MainHeader = ({ global, router }) => {
             </Menu.Item> */}
             <Menu.Item
               onClick={() => {
-                global.signOut().then(() => router.push("/signin"));
+                global.signOut();
+                router.push("/signin");
               }}
             >
               Signout

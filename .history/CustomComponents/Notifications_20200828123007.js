@@ -108,18 +108,18 @@ const Notification = ({ form, data, token }) => {
   const websiteOptions = autoCompleteResult.map((website) => (
     <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
   ));
-  const read = async (id) => {
+  const read = (id) => {
     console.log(id);
     try {
-      const get = await fetch(
-        `${globals.BASE_URL}/api/admin/update_notifications`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: token },
-          body: JSON.stringify({ record: id }),
-        }
-      );
-      data = await get.json();
+      reqwest({
+        url: `${globals.BASE_URL}/api/admin/update_notifications`,
+        method: "post",
+        headers: {
+          Authorization: token,
+        },
+        body: { record: id },
+        type: "json",
+      }).then((data) => {});
     } catch (err) {
       Message.error(err.message);
       // this.setState({ loading: false });
@@ -314,7 +314,7 @@ const Notification = ({ form, data, token }) => {
                             else if (user.role == "ward admin")
                               base = "/ward_admin";
 
-                            read(item._id);
+                            read(item.doc._id);
                             Router.push(
                               base + "/reports?open_record=" + item.doc._id
                             );
@@ -323,10 +323,10 @@ const Notification = ({ form, data, token }) => {
                             <Avatar
                               size="large"
                               style={{
-                                color: item.opened ? "grey" : "white",
+                                color: item.opened ? "grey" : "rgb(34, 245, 0)",
                                 backgroundColor: item.opened
                                   ? "#efefef"
-                                  : "#008000",
+                                  : "rgb(207, 253, 219)",
                               }}
                             >
                               <MessageCircle size={24} strokeWidth={1} />
